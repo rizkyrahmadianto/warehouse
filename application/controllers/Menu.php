@@ -82,7 +82,7 @@ class Menu extends CI_Controller
             $this->load->view('templates/header', $info);
             $this->load->view('templates/sidebar', $info);
             $this->load->view('templates/topbar', $info);
-            $this->load->view('menu/add_menu', $info);
+            $this->load->view('menus/add_menu', $info);
             $this->load->view('templates/footer');
         } else {
             $this->Menu_model->insertMenu($data);
