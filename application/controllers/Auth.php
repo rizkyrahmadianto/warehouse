@@ -11,7 +11,7 @@ class Auth extends CI_Controller
 
 	private function _login()
 	{
-		$email = $this->input->post('email', true);
+		$email = $this->security->xss_clean(html_escape($this->input->post('email', true)));
 		$pass  = $this->security->xss_clean(html_escape($this->input->post('password', true)));
 
 		$user = $this->Auth_model->userLogin($email);
@@ -25,6 +25,25 @@ class Auth extends CI_Controller
 					];
 
 					$this->session->set_userdata($file);
+
+
+					/* $this->input->set_cookie(array(
+						'name' => 'remember_me_token',
+						'value' => 'Warehouse Remember Me',
+						'expire' => '604800',
+						'domain' => 'http://localhost/warehouse/',
+						'path' => '/',
+						'secure' => true,
+						'httponly' => true
+					)); */
+
+					if ($this->input->post("customCheck")) {
+						$this->input->set_cookie('email', $email, 604800);
+						$this->input->set_cookie('password', $pass, 604800);
+					} else {
+						delete_cookie('email');
+						delete_cookie('password');
+					}
 
 					if ($user['role_id'] == 1) {
 						redirect('admin', 'refresh');
@@ -87,8 +106,8 @@ class Auth extends CI_Controller
 	{
 		$info['title'] = 'Log In';
 
-		$this->form_validation->set_rules('email', 'email', 'trim|required|valid_email');
-		$this->form_validation->set_rules('password', 'password', 'trim|required');
+		$this->form_validation->set_rules('email', 'email', 'trim|required|valid_email|xss_clean');
+		$this->form_validation->set_rules('password', 'password', 'trim|required|xss_clean');
 
 		if ($this->form_validation->run() == FALSE) {
 			$this->load->view('templates/header_auth', $info);
@@ -111,10 +130,10 @@ class Auth extends CI_Controller
 	{
 		$info['title'] = "Register Page";
 
-		$this->form_validation->set_rules('name', 'full name', 'trim|required|min_length[3]');
-		$this->form_validation->set_rules('email', 'email', 'trim|required|valid_email|is_unique[users.email]', ['is_unique' => 'This email has already registered !']);
-		$this->form_validation->set_rules('password1', 'password', 'trim|required|min_length[6]|matches[password2]');
-		$this->form_validation->set_rules('password2', 'repeat password', 'trim|required|min_length[6]|matches[password2]');
+		$this->form_validation->set_rules('name', 'full name', 'trim|required|min_length[3]|xss_clean');
+		$this->form_validation->set_rules('email', 'email', 'trim|required|xss_clean|valid_email|is_unique[users.email]', ['is_unique' => 'This email has already registered !']);
+		$this->form_validation->set_rules('password1', 'password', 'trim|xss_clean|required|min_length[6]|matches[password2]');
+		$this->form_validation->set_rules('password2', 'repeat password', 'trim|xss_clean|required|min_length[6]|matches[password2]');
 
 		if ($this->form_validation->run() == FALSE) {
 			$this->load->view('templates/header_auth', $info);
@@ -194,7 +213,7 @@ class Auth extends CI_Controller
 	{
 		$info['title'] = 'Forgot Password';
 
-		$this->form_validation->set_rules('email', 'email', 'trim|required|valid_email');
+		$this->form_validation->set_rules('email', 'email', 'trim|required|valid_email|xss_clean');
 
 		if ($this->form_validation->run() == FALSE) {
 			$this->load->view('templates/header_auth', $info);
@@ -256,8 +275,8 @@ class Auth extends CI_Controller
 
 		$info['title'] = "Change Password";
 
-		$this->form_validation->set_rules('pass', 'new password', 'trim|required|min_length[6]|matches[repeat_pass]');
-		$this->form_validation->set_rules('repeat_pass', 'repeat new password', 'trim|required|min_length[6]|matches[pass]');
+		$this->form_validation->set_rules('pass', 'new password', 'trim|required|xss_clean|min_length[6]|matches[repeat_pass]');
+		$this->form_validation->set_rules('repeat_pass', 'repeat new password', 'trim|required|xss_clean|min_length[6]|matches[pass]');
 
 		if ($this->form_validation->run() == FALSE) {
 			$this->load->view('templates/header_auth', $info);
