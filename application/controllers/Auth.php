@@ -38,11 +38,9 @@ class Auth extends CI_Controller
 					)); */
 
 					if ($this->input->post("customCheck")) {
-						$this->input->set_cookie('email', $email, 604800);
-						$this->input->set_cookie('password', $pass, 604800);
-					} else {
-						delete_cookie('email');
-						delete_cookie('password');
+						$this->session->set_userdata($file);
+						$cookie = $this->input->cookie('warehouse'); // we get the cookie
+						$this->input->set_cookie('warehouse', $cookie, '604800');
 					}
 
 					if ($user['role_id'] == 1) {

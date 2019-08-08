@@ -4,21 +4,25 @@
     <!-- Page Heading -->
     <h1 class="h3 mb-2 text-gray-800"><?php echo $title; ?></h1>
 
-    <div class="row mb-4">
-        <div class="col-lg-4">
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <div class="d-sm-flex mt-4">
             <!-- search form -->
             <form action="" method="post">
                 <div class="input-group">
-                    <input type="text" name="search" id="search" class="form-control" placeholder="Search...">
+                    <input type="text" name="search" id="search" class="form-control" placeholder="Search..." autocomplete="off" autofocus>
                     <div class="input-group-append">
-                        <button type="submit" class="btn btn-secondary"><i class="fas fa-search"></i></button>
+                        <!-- <button type="submit" class="btn btn-secondary"><i class="fas fa-search"></i></button> -->
+                        <input type="submit" name="submit" class="btn btn-primary">
                     </div>
                 </div>
             </form>
             <!-- /.search form -->
         </div>
-        <div class="col-lg-8">
-            <a href="<?php echo base_url() ?>menu/addsubmenu" class="btn btn-primary"><i class="fa fa-plus"></i> Sub Menu</a>
+
+        <div class="d-sm-flex mt-4">
+            <!-- Button Add New -->
+            <a href="<?php echo base_url() ?>menu/addsubmenu" class="btn btn-success"><i class="fa fa-plus"></i> Sub Menu</a>
+            <!-- Button Add New -->
         </div>
     </div>
 
