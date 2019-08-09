@@ -1,4 +1,4 @@
-# warehouse
+# HOW TO INSTALL / USE IT
 This Web to manage your mini warehouse !
 
 I made this with CodeIgniter so
