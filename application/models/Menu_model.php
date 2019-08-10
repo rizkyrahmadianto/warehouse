@@ -53,17 +53,22 @@ class Menu_model extends CI_Model
         $this->db->delete('user_menu');
     }
 
-    public function getAllSubMenu($limit, $offset)
+    public function getAllSubMenu($limit, $offset, $keyword)
     {
-        $keyword = $this->input->post('search', true);
+        if ($keyword) {
+            $this->db->like('user_sub_menu.menu_id', $keyword);
+            $this->db->or_like('title', $keyword);
+            $this->db->or_like('url', $keyword);
+            $this->db->or_like('icon', $keyword);
+        }
 
         $this->db->select('user_sub_menu.*, user_menu.menu');
         $this->db->from('user_sub_menu');
         $this->db->join('user_menu', 'user_sub_menu.menu_id = user_menu.id');
 
-        $this->db->limit($limit, $offset);
-        $this->db->or_like('title', $keyword);
+        $this->db->order_by('title', 'ASC'); // must be specify which the part of table
 
+        $this->db->limit($limit, $offset);
         $query = $this->db->get();
         return $query->result_array();
     }

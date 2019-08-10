@@ -37,11 +37,13 @@ class Auth extends CI_Controller
 						'httponly' => true
 					)); */
 
+					// ini didapatkan dari setting config di file config.php`
 					if ($this->input->post("customCheck")) {
 						$this->session->set_userdata($file);
 						$cookie = $this->input->cookie('warehouse'); // we get the cookie
 						$this->input->set_cookie('warehouse', $cookie, '604800');
 					}
+					// ini didapatkan dari setting config di file config.php`
 
 					if ($user['role_id'] == 1) {
 						redirect('admin', 'refresh');

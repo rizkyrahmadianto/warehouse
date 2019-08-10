@@ -126,50 +126,67 @@ class Menu extends CI_Controller
         $info['title']         = 'Management Sub Menu';
         $info['user']          = $this->Auth_model->getUserSession();
 
+        // SEARCHING
+        if ($this->input->post('search', true)) {
+            $info['keyword'] = $this->input->post('search', true);
+            $this->session->set_userdata('keyword', $info['keyword']);
+        } else {
+            $info['keyword'] = $this->session->set_userdata('keyword');
+        }
+        // SEARCHING
+
+        // DB PAGINATION FOR SEARCHING
+        $this->db->like('id', $info['keyword']);
+        $this->db->or_like('title', $info['keyword']);
+        $this->db->or_like('url', $info['keyword']);
+        $this->db->or_like('icon', $info['keyword']);
+        $this->db->from('user_sub_menu');
+        // DB PAGINATION FOR SEARCHING
+
+        /* Untuk menambahkan fitur jumlah berapa rows cari yang ada bisa menggunakan cara
+            $info['total_rows'] = $config['total_rows']; ->(lalu dilempar ke views)
+            // <h5>Results: <?= $total_rows ?></h5> 
+        */
+
         $config['base_url']     = base_url() . 'menu/submenu';
-        $config['total_rows']     = $this->Menu_model->getTotalRow();
+        $config['total_rows']   = $this->db->count_all_results();
         $config['per_page']     = 5;
-        $config['uri_segment']     = 3;
+        $config['num_links']    = 5; // set this num links to give limit show page, 5 means [1,2,3,4,5,next]
 
-        $choice = $config['total_rows'] / $config['per_page'];
-        $config['num_links'] = floor($choice);
-
-        $config['full_tag_open']    = '<div class="pagging text-center"><nav><ul class="pagination justify-content-center">';
+        // STYLING
+        $config['full_tag_open']    = '<div class="pagging text-center"><nav><ul class="pagination">';
         $config['full_tag_close']   = '</ul></nav></div>';
 
         $config['first_link']       = 'First';
-        $config['first_tag_open']   = '<li class="page-item"><span class="page-link">';
-        $config['first_tag_close']  = '</span></li>';
+        $config['first_tag_open']   = '<li class="page-item">';
+        $config['first_tag_close']  = '</li>';
 
         $config['last_link']        = 'Last';
-        $config['last_tag_open']    = '<li class="page-item"><span class="page-link">';
-        $config['last_tag_close']   = '</span></li>';
+        $config['last_tag_open']    = '<li class="page-item">';
+        $config['last_tag_close']   = '</li>';
 
-        $config['next_link']        = '&gt;';
-        $config['next_tag_open']    = '<li class="page-item"><span class="page-link">';
-        $config['next_tag_close']   = '<span aria-hidden="true"></span></span></li>';
+        $config['next_link']        = '&raquo';
+        $config['next_tag_open']    = '<li class="page-item">';
+        $config['next_tag_close']   = '</li>';
 
-        $config['prev_link']        = '&lt;';
-        $config['prev_tag_open']    = '<li class="page-item"><span class="page-link">';
-        $config['prev_tag_close']   = '</span></li>';
+        $config['prev_link']        = '&laquo';
+        $config['prev_tag_open']    = '<li class="page-item">';
+        $config['prev_tag_close']   = '</li>';
 
-        $config['cur_tag_open']     = '<li class="page-item active"><span class="page-link">';
-        $config['cur_tag_close']    = '<span class="sr-only">(current)</span></span></li>';
+        $config['cur_tag_open']     = '<li class="page-item active"><a class="page-link">';
+        $config['cur_tag_close']    = '</a></li>';
 
-        $config['num_tag_open']     = '<li class="page-item"><span class="page-link">';
-        $config['num_tag_close']    = '</span></li>';
+        $config['num_tag_open']     = '<li class="page-item">';
+        $config['num_tag_close']    = '</li>';
+        $config['attributes']       = array('class' => 'page-link');
+        // STYLING
 
         $this->pagination->initialize($config);
 
-        $info['page']        = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
-        $info['submenu']    = $this->Menu_model->getAllSubMenu($config['per_page'], $info['page']);
+        $info['start']      = $this->uri->segment(3);
+        $info['submenu']    = $this->Menu_model->getAllSubMenu($config['per_page'], $info['start'], $info['keyword']);
 
         $info['pagination'] =  $this->pagination->create_links();
-
-
-        if ($this->input->post('search', true)) {
-            $info['submenu'] = $this->Menu_model->getAllSubmenu($config['per_page'], $info['page']);
-        }
 
         $this->load->view('templates/header', $info);
         $this->load->view('templates/sidebar', $info);

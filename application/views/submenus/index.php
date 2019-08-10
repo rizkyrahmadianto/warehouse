@@ -11,8 +11,8 @@
                 <div class="input-group">
                     <input type="text" name="search" id="search" class="form-control" placeholder="Search..." autocomplete="off" autofocus>
                     <div class="input-group-append">
-                        <!-- <button type="submit" class="btn btn-secondary"><i class="fas fa-search"></i></button> -->
-                        <input type="submit" name="submit" class="btn btn-primary">
+                        <button type="submit" name="submit" class="btn btn-primary"><i class="fas fa-search"></i></button>
+                        <!-- <input type="submit" name="submit" class="btn btn-primary"> -->
                     </div>
                 </div>
             </form>
@@ -63,28 +63,34 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <?php $no = $this->uri->segment(3) + 1;
-                        foreach ($submenu as $sm) : ?>
+                        <?php
+                        if ($submenu) :
+                            foreach ($submenu as $sm) : ?>
+                                <tr>
+                                    <td><?php echo ++$start; ?></td>
+                                    <td><?php echo $sm['title']; ?></td>
+                                    <td><?php echo $sm['menu']; ?></td>
+                                    <td><?php echo $sm['url']; ?></td>
+                                    <td><?php echo $sm['icon']; ?></td>
+                                    <td><?php echo $sm['is_active']; ?></td>
+                                    <td>
+                                        <a href="<?php echo base_url() ?>deletesubmenu/<?php echo $sm['id'] ?>" class="btn btn-sm btn-danger button-delete">Delete</a>
+                                        <a href="<?php echo base_url() ?>menu/editsubmenu/<?php echo $sm['id'] ?>" class="btn btn-sm btn-warning">Edit</a>
+                                    </td>
+                                </tr>
+                            <?php endforeach; ?>
+                        <?php else : ?>
                             <tr>
-                                <td><?php echo $no++; ?></td>
-                                <td><?php echo $sm['title']; ?></td>
-                                <td><?php echo $sm['menu']; ?></td>
-                                <td><?php echo $sm['url']; ?></td>
-                                <td><?php echo $sm['icon']; ?></td>
-                                <td><?php echo $sm['is_active']; ?></td>
-                                <td>
-                                    <a href="<?php echo base_url() ?>deletesubmenu/<?php echo $sm['id'] ?>" class="btn btn-sm btn-danger button-delete">Delete</a>
-                                    <a href="<?php echo base_url() ?>menu/editsubmenu/<?php echo $sm['id'] ?>" class="btn btn-sm btn-warning">Edit</a>
-                                </td>
+                                <td colspan="7" style="text-align: center">Data not found !</td>
                             </tr>
-                        <?php endforeach; ?>
+                        <?php endif; ?>
                     </tbody>
                 </table>
             </div>
-        </div>
-        <div class="row">
-            <div class="col-md-12">
-                <?php echo $pagination; ?>
+            <div class="row">
+                <div class="col-md-12">
+                    <?php echo $pagination; ?>
+                </div>
             </div>
         </div>
     </div>
