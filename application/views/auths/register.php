@@ -45,10 +45,10 @@
                                 </div>
                             </div>
                             <div class="form-group row">
-                                <div class="col-sm-6">
+                                <!-- <div class="col-sm-6">
                                     <a href="<?php echo base_url() ?>" class="btn btn-secondary btn-user btn-block">Cancel</a>
-                                </div>
-                                <div class="col-sm-6 mb-3 mb-sm-0">
+                                </div> -->
+                                <div class="col-sm-12 mb-3 mb-sm-0">
                                     <button type="submit" class="btn btn-primary btn-user btn-block">
                                         Register Account</button>
                                 </div>

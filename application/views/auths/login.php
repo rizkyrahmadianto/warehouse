@@ -13,13 +13,7 @@
             <div class="col-lg-6">
               <div class="p-5">
 
-                <?php if ($this->session->flashdata('success')) { ?>
-                  <div class="alert alert-success alert-dismissible">
-                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                    <h4><i class="icon fa fa-check"></i> Alert!</h4>
-                    <?php echo $this->session->flashdata('success'); ?>
-                  </div>
-                <?php } else if ($this->session->flashdata('error')) { ?>
+                <?php if ($this->session->flashdata('error')) { ?>
                   <div class="alert alert-danger alert-dismissible">
                     <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
                     <h4><i class="icon fa fa-ban"></i> Alert!</h4>
@@ -52,10 +46,10 @@
                     </div>
                   </div>
                   <div class="form-group row">
-                    <div class="col-sm-6">
+                    <!-- <div class="col-sm-6">
                       <a href="<?php echo base_url() ?>" class="btn btn-secondary btn-user btn-block">Cancel</a>
-                    </div>
-                    <div class="col-sm-6 mb-3 mb-sm-0">
+                    </div> -->
+                    <div class="col-sm-12 mb-3 mb-sm-0">
                       <button type="submit" class="btn btn-primary btn-user btn-block">Login</button>
                     </div>
                   </div>
