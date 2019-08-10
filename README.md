@@ -1,3 +1,8 @@
+# IF YOU WANT RUNNING THIS APP INTO YOUR LOCAL
+1. Download XAMPP (its free) https://www.apachefriends.org/download.html
+2. Intall it like usually you installed app 
+3. Put Warehouse's folder into C:\xampp\htdocs
+
 # HOW TO INSTALL / USE IT
 This Web to manage your mini warehouse !
 
