@@ -5,21 +5,21 @@
     <h1 class="h3 mb-2 text-gray-800"><?php echo $title; ?></h1>
 
 
-    <div class="row mb-4">
-        <div class="col-lg-4">
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <div class="d-sm-flex mt-4">
+            <a href="<?php echo base_url() ?>menu/addmenu" class="btn btn-success"><i class="fa fa-plus"></i> Menu</a>
+        </div>
+        <div class="d-sm-flex mt-4">
             <!-- search form -->
             <form action="" method="post">
                 <div class="input-group">
-                    <input type="text" name="search" id="search" class="form-control" placeholder="Search...">
+                    <input type="text" name="search" id="search" class="form-control" placeholder="Search..." autocomplete="off" autofocus>
                     <div class="input-group-append">
-                        <button type="submit" class="btn btn-secondary"><i class="fas fa-search"></i></button>
+                        <button type="submit" class="btn btn-primary"><i class="fas fa-search"></i></button>
                     </div>
                 </div>
             </form>
             <!-- /.search form -->
-        </div>
-        <div class="col-lg-8">
-            <a href="<?php echo base_url() ?>menu/addmenu" class="btn btn-primary"><i class="fa fa-plus"></i> Menu</a>
         </div>
     </div>
 
@@ -56,24 +56,30 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <?php $no = $this->uri->segment(3) + 1;
-                        foreach ($menu as $m) : ?>
+                        <?php
+                        if ($menu) :
+                            foreach ($menu as $m) : ?>
+                                <tr>
+                                    <td><?php echo ++$start; ?></td>
+                                    <td><?php echo $m['menu']; ?></td>
+                                    <td>
+                                        <a href="<?php echo base_url() ?>menu/deletemenu/<?php echo $m['id'] ?>" class="btn btn-sm btn-danger button-delete">Delete</a>
+                                        <a href="<?php echo base_url() ?>menu/editmenu/<?php echo $m['id'] ?>" class="btn btn-sm btn-warning">Edit</a>
+                                    </td>
+                                </tr>
+                            <?php endforeach; ?>
+                        <?php else : ?>
                             <tr>
-                                <td><?php echo $no++; ?></td>
-                                <td><?php echo $m['menu']; ?></td>
-                                <td>
-                                    <a href="<?php echo base_url() ?>menu/deletemenu/<?php echo $m['id'] ?>" class="btn btn-sm btn-danger button-delete">Delete</a>
-                                    <a href="<?php echo base_url() ?>menu/editmenu/<?php echo $m['id'] ?>" class="btn btn-sm btn-warning">Edit</a>
-                                </td>
+                                <td colspan="3" style="text-align: center">Data not found !</td>
                             </tr>
-                        <?php endforeach; ?>
+                        <?php endif; ?>
                     </tbody>
                 </table>
             </div>
-        </div>
-        <div class="row">
-            <div class="col-md-12">
-                <?php echo $pagination; ?>
+            <div class="row">
+                <div class="col-md-12">
+                    <?php echo $pagination; ?>
+                </div>
             </div>
         </div>
     </div>

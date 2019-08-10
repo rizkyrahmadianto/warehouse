@@ -6,6 +6,12 @@
 
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
         <div class="d-sm-flex mt-4">
+            <!-- Button Add New -->
+            <a href="<?php echo base_url() ?>menu/addsubmenu" class="btn btn-success"><i class="fa fa-plus"></i> Sub Menu</a>
+            <!-- Button Add New -->
+        </div>
+
+        <div class="d-sm-flex mt-4">
             <!-- search form -->
             <form action="" method="post">
                 <div class="input-group">
@@ -17,12 +23,6 @@
                 </div>
             </form>
             <!-- /.search form -->
-        </div>
-
-        <div class="d-sm-flex mt-4">
-            <!-- Button Add New -->
-            <a href="<?php echo base_url() ?>menu/addsubmenu" class="btn btn-success"><i class="fa fa-plus"></i> Sub Menu</a>
-            <!-- Button Add New -->
         </div>
     </div>
 
