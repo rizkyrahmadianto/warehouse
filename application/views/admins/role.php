@@ -5,9 +5,23 @@
     <h1 class="h3 mb-2 text-gray-800"><?php echo $title; ?></h1>
 
 
-    <div class="row mb-4">
-        <div class="col-lg-12">
-            <a href="<?php echo base_url() ?>admin/addrole" class="btn btn-primary"><i class="fa fa-plus"></i> Role</a>
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <div class="d-sm-flex mt-4">
+            <a href="<?php echo base_url() ?>admin/addrole" class="btn btn-success"><i class="fa fa-plus"></i> Role</a>
+        </div>
+
+        <div class="d-sm-flex mt-4">
+            <!-- search form -->
+            <form action="" method="post">
+                <div class="input-group">
+                    <input type="text" name="search" id="search" class="form-control" placeholder="Search..." autocomplete="off" autofocus>
+                    <div class="input-group-append">
+                        <button type="submit" name="submit" class="btn btn-primary"><i class="fas fa-search"></i></button>
+                        <!-- <input type="submit" name="submit" class="btn btn-primary"> -->
+                    </div>
+                </div>
+            </form>
+            <!-- /.search form -->
         </div>
     </div>
 
@@ -44,25 +58,31 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <?php $no = $this->uri->segment(3) + 1;
-                        foreach ($role as $r) : ?>
+                        <?php
+                        if ($role) :
+                            foreach ($role as $r) : ?>
+                                <tr>
+                                    <td><?php echo ++$start; ?></td>
+                                    <td><?php echo $r['role']; ?></td>
+                                    <td>
+                                        <a href="<?php echo base_url() ?>admin/deleterole/<?php echo $r['id'] ?>" class="btn btn-sm btn-danger button-delete">Delete</a>
+                                        <a href="<?php echo base_url() ?>admin/editrole/<?php echo $r['id'] ?>" class="btn btn-sm btn-warning">Edit</a>
+                                        <a href="<?php echo base_url() ?>admin/accessrole/<?php echo $r['id'] ?>" class="btn btn-sm btn-success">Access</a>
+                                    </td>
+                                </tr>
+                            <?php endforeach; ?>
+                        <?php else : ?>
                             <tr>
-                                <td><?php echo $no++; ?></td>
-                                <td><?php echo $r['role']; ?></td>
-                                <td>
-                                    <a href="<?php echo base_url() ?>admin/deleterole/<?php echo $r['id'] ?>" class="btn btn-sm btn-danger button-delete">Delete</a>
-                                    <a href="<?php echo base_url() ?>admin/editrole/<?php echo $r['id'] ?>" class="btn btn-sm btn-warning">Edit</a>
-                                    <a href="<?php echo base_url() ?>admin/accessrole/<?php echo $r['id'] ?>" class="btn btn-sm btn-success">Access</a>
-                                </td>
+                                <td colspan="3" style="text-align: center">Data not found !</td>
                             </tr>
-                        <?php endforeach; ?>
+                        <?php endif; ?>
                     </tbody>
                 </table>
             </div>
-        </div>
-        <div class="row">
-            <div class="col-md-12">
-                <?php echo $pagination; ?>
+            <div class="row">
+                <div class="col-md-12">
+                    <?php echo $pagination; ?>
+                </div>
             </div>
         </div>
     </div>

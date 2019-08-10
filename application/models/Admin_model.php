@@ -66,8 +66,15 @@ class Admin_model extends CI_Model
         return $query->result_array();
     }
 
-    public function getAllRole($limit, $offset)
+    public function getAllRole($limit, $offset, $keyword)
     {
+        if ($keyword) {
+            $this->db->like('id', $keyword);
+            $this->db->or_like('role', $keyword);
+        }
+
+        $this->db->order_by('role', 'ASC');
+
         $query = $this->db->get('user_role', $limit, $offset);
         return $query->result_array();
     }

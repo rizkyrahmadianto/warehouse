@@ -66,7 +66,7 @@ class Menu extends CI_Controller
 
         $this->pagination->initialize($config);
 
-        $info['start']      = $this->uri->segment(3);
+        $info['start']   = $this->uri->segment(3);
         $info['menu']    = $this->Menu_model->getAllMenu($config['per_page'], $info['start'], $info['keyword']);
 
         $info['pagination'] = $this->pagination->create_links();
