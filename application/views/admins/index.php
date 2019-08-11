@@ -84,9 +84,9 @@
             <!-- search form -->
             <form action="" method="post">
                 <div class="input-group">
-                    <input type="text" name="search" id="search" class="form-control" placeholder="Search...">
+                    <input type="text" name="search" id="search" class="form-control" placeholder="Search..." autocomplete="off" autofocus>
                     <div class="input-group-append">
-                        <button type="submit" class="btn btn-secondary"><i class="fas fa-search"></i></button>
+                        <button type="submit" class="btn btn-primary"><i class="fas fa-search"></i></button>
                     </div>
                 </div>
             </form>
@@ -121,32 +121,32 @@
                             $no = $this->uri->segment(3) + 1;
                             foreach ($data as $d) :
                                 ?>
-                                        <tr>
-                                            <td><?php echo $no++; ?></td>
-                                            <td><?php echo $d['regname']; ?></td>
-                                            <td><?php echo $d['regid']; ?></td>
-                                            <td><?php echo $d['jumlah']; ?></td>
-                                            <td><?php echo "Rp. " . number_format($d['total'], 0, ',', '.'); ?></td>
-                                            <td><?php echo "Rp. " . number_format($d['rata_rata'], 0, ',', '.'); ?></td>
-                                            <td>
-                                                <?php
-                                                if ($d['rata_rata'] > 2200000) {
-                                                    echo '<span class="badge badge-success">Great</span>';
-                                                } else if (($d['rata_rata'] > 1700000) && ($d['rata_rata'] < 2200000)) {
-                                                    echo '<span class="badge badge-warning">Warning</span>';
-                                                } else {
-                                                    echo '<span class="badge badge-danger">Danger</span>';
-                                                }
-                                                ?>
-                                            </td>
-                                        </tr>
-                                <?php
-                                endforeach;
-                            else :
-                                ?>
-                                <tr>
-                                    <td colspan="7" align="center">No data record / found.</td>
-                                </tr>
+                                                <tr>
+                                                    <td><?php echo $no++; ?></td>
+                                                    <td><?php echo $d['regname']; ?></td>
+                                                    <td><?php echo $d['regid']; ?></td>
+                                                    <td><?php echo $d['jumlah']; ?></td>
+                                                    <td><?php echo "Rp. " . number_format($d['total'], 0, ',', '.'); ?></td>
+                                                    <td><?php echo "Rp. " . number_format($d['rata_rata'], 0, ',', '.'); ?></td>
+                                                    <td>
+                                                        <?php
+                                                        if ($d['rata_rata'] > 2200000) {
+                                                            echo '<span class="badge badge-success">Great</span>';
+                                                        } else if (($d['rata_rata'] > 1700000) && ($d['rata_rata'] < 2200000)) {
+                                                            echo '<span class="badge badge-warning">Warning</span>';
+                                                        } else {
+                                                            echo '<span class="badge badge-danger">Danger</span>';
+                                                        }
+                                                        ?>
+                                                    </td>
+                                                </tr>
+                                    <?php
+                                    endforeach;
+                                else :
+                                    ?>
+                                    <tr>
+                                        <td colspan="7" align="center">No data record / found.</td>
+                                    </tr>
                         <?php endif; ?>
                     </tbody>
                 </table>

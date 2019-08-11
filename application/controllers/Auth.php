@@ -311,7 +311,7 @@ class Auth extends CI_Controller
 	public function denied()
 	{
 		$info['title']	= "Oops! Access Denied";
-		$this->load->view('template/header', $info);
-		$this->load->view('auth/denied');
+		$this->load->view('templates/header', $info);
+		$this->load->view('auths/denied');
 	}
 }
