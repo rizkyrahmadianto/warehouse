@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 28, 2019 at 04:40 PM
+-- Generation Time: Aug 12, 2019 at 01:56 PM
 -- Server version: 10.3.16-MariaDB
 -- PHP Version: 7.3.7
 
@@ -25,6 +25,19 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `banks`
+--
+
+CREATE TABLE `banks` (
+  `customer_id` int(11) NOT NULL,
+  `bank_name` varchar(128) NOT NULL,
+  `account_number` int(32) NOT NULL,
+  `account_name` varchar(128) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `categories`
 --
 
@@ -40,13 +53,13 @@ CREATE TABLE `categories` (
 --
 
 CREATE TABLE `customers` (
-  `customerID` int(11) NOT NULL,
-  `emailAddress` varchar(32) NOT NULL,
+  `id` int(11) NOT NULL,
+  `email` varchar(32) NOT NULL,
   `name` varchar(32) NOT NULL,
   `phone` varchar(32) NOT NULL,
   `address` text NOT NULL,
-  `shippingAddressID` int(11) NOT NULL,
-  `billingAddressID` int(11) NOT NULL
+  `bank_name` int(32) NOT NULL,
+  `bank_account_number` int(32) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -164,7 +177,8 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `name`, `email`, `image`, `password`, `role_id`, `is_active`, `created_at`) VALUES
-(1, 'Admin Warehouse', 'r.rahmadianto@yahoo.com', 'default1.png', '$2y$10$ojVg/Mvr9wpLnHNd.9AxXOlpSEWuivT9dQDbnoZx5Hw9MLaCFjmWK', 1, 1, 20190323);
+(1, 'Admin Warehouse', 'r.rahmadianto@yahoo.com', 'default1.png', '$2y$10$ojVg/Mvr9wpLnHNd.9AxXOlpSEWuivT9dQDbnoZx5Hw9MLaCFjmWK', 1, 1, 20190323),
+(3, 'Budiman', 'budiman@gmail.com', 'default.jpg', '$2y$10$kYvHiIKzCULCqUOVQgcz8.QowPLxheDav5B2VLYc.CPYkFYsqoi.m', 2, 1, 20190323);
 
 -- --------------------------------------------------------
 
@@ -185,7 +199,12 @@ CREATE TABLE `user_access_menu` (
 INSERT INTO `user_access_menu` (`id`, `role_id`, `menu_id`) VALUES
 (1, 1, 2),
 (2, 1, 3),
-(3, 1, 4);
+(3, 1, 4),
+(4, 2, 3),
+(6, 2, 6),
+(7, 1, 6),
+(8, 2, 7),
+(9, 1, 7);
 
 -- --------------------------------------------------------
 
@@ -205,7 +224,9 @@ CREATE TABLE `user_menu` (
 INSERT INTO `user_menu` (`id`, `menu`) VALUES
 (2, 'Admin'),
 (3, 'Master'),
-(4, 'Menu');
+(4, 'Menu'),
+(6, 'Transaction'),
+(7, 'Report');
 
 -- --------------------------------------------------------
 
@@ -225,6 +246,26 @@ CREATE TABLE `user_role` (
 INSERT INTO `user_role` (`id`, `role`) VALUES
 (1, 'Admin'),
 (2, 'Member');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `user_status`
+--
+
+CREATE TABLE `user_status` (
+  `id` int(11) NOT NULL,
+  `status_name` varchar(128) NOT NULL,
+  `status_value` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `user_status`
+--
+
+INSERT INTO `user_status` (`id`, `status_name`, `status_value`) VALUES
+(2, 'Inactive', 0),
+(3, 'Active', 1);
 
 -- --------------------------------------------------------
 
@@ -249,7 +290,19 @@ INSERT INTO `user_sub_menu` (`id`, `menu_id`, `title`, `url`, `icon`, `is_active
 (1, 2, 'Dashboard', 'admin', 'fas fa-tachometer-alt', 1),
 (2, 4, 'Management Menu', 'menu', 'fas fa-bars', 1),
 (3, 4, 'Management Sub Menu', 'menu/submenu', 'fas fa-minus', 1),
-(4, 2, 'Role', 'admin/role', 'fa fa-user-secret', 1);
+(4, 2, 'Role', 'admin/role', 'fa fa-user-secret', 1),
+(5, 3, 'Customer', 'customer', 'fas fa-user', 1),
+(6, 3, 'Product', 'product', 'fas fa-boxes', 1),
+(7, 3, 'Supplier', 'supplier', 'fas fa-people-carry', 1),
+(8, 2, 'User Controll', 'admin/usercontroll', 'fas fa-user-cog', 1),
+(9, 6, 'Purchasing', 'purchasing', 'fas fa-shopping-basket', 1),
+(10, 6, 'Selling', 'selling', 'fas fa-money-check-alt', 1),
+(11, 6, 'Debt', 'debt', 'far fa-arrow-alt-circle-left', 1),
+(12, 6, 'Accounts Receivable', 'accounts-receivable', 'far fa-arrow-alt-circle-right', 1),
+(13, 7, 'Purchase Report', 'purchase-report', 'fas fa-print', 1),
+(14, 7, 'Selling Report', 'sell-report', 'fas fa-print', 1),
+(15, 7, 'Debt Report', 'debt-report', 'fas fa-print', 1),
+(16, 7, 'Accounts Receivable Report', 'accounts-receivable-report', 'fas fa-print', 1);
 
 -- --------------------------------------------------------
 
@@ -269,6 +322,12 @@ CREATE TABLE `user_token` (
 --
 
 --
+-- Indexes for table `banks`
+--
+ALTER TABLE `banks`
+  ADD PRIMARY KEY (`customer_id`);
+
+--
 -- Indexes for table `categories`
 --
 ALTER TABLE `categories`
@@ -278,7 +337,7 @@ ALTER TABLE `categories`
 -- Indexes for table `customers`
 --
 ALTER TABLE `customers`
-  ADD PRIMARY KEY (`customerID`);
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `orders`
@@ -329,6 +388,12 @@ ALTER TABLE `user_role`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `user_status`
+--
+ALTER TABLE `user_status`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `user_sub_menu`
 --
 ALTER TABLE `user_sub_menu`
@@ -354,7 +419,7 @@ ALTER TABLE `categories`
 -- AUTO_INCREMENT for table `customers`
 --
 ALTER TABLE `customers`
-  MODIFY `customerID` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `orders`
@@ -384,19 +449,19 @@ ALTER TABLE `suppliers`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `user_access_menu`
 --
 ALTER TABLE `user_access_menu`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `user_menu`
 --
 ALTER TABLE `user_menu`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `user_role`
@@ -405,10 +470,16 @@ ALTER TABLE `user_role`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
+-- AUTO_INCREMENT for table `user_status`
+--
+ALTER TABLE `user_status`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
 -- AUTO_INCREMENT for table `user_sub_menu`
 --
 ALTER TABLE `user_sub_menu`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT for table `user_token`

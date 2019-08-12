@@ -253,12 +253,18 @@ class Menu extends CI_Controller
         $this->form_validation->set_rules('icon', 'icon', 'trim|required|min_length[3]');
         $this->form_validation->set_rules('active', 'active submenu');
 
+        if ($this->input->post('active', true) == null) {
+            $status = 0; // if condition not null it means checked
+        } else {
+            $status = 1;
+        }
+
         $data = [
             'menu_id'   => $this->security->xss_clean(html_escape($this->input->post('menu_opt', true))),
             'title'     => $this->security->xss_clean(html_escape($this->input->post('name', true))),
             'url'       => $this->security->xss_clean(html_escape($this->input->post('url', true))),
             'icon'      => $this->security->xss_clean(html_escape($this->input->post('icon', true))),
-            'is_active' => $this->security->xss_clean(html_escape($this->input->post('active', true)))
+            'is_active' => $status
         ];
 
         if ($this->form_validation->run() == FALSE) {
