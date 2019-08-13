@@ -20,3 +20,4 @@ Yup there is cookie inside the file Auth and file Config. So you can access the 
 # HOW TO BE CONTRIBUTOR
 1. Clone this repo
 2. Check out to Branch_stage1
+3. There is no reward or price when you developed this website but, I will post your name and some link to inform who you are
