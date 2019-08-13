@@ -12,7 +12,7 @@ I made this with CodeIgniter so
 3. Setting your email and password into Auth.php on folder Controller/Auth.php if you want to activate email service like register and change password
 4. Use this account to access the admin panel: email -> r.rahmadianto@yahoo.com, password -> admin123
 
-!! By default new user will be member role
+!! By default new user will be given access as "Member"
 
 # COOKIE
 Yup there is cookie inside the file Auth and file Config. So you can access the web without login again and again if you have checked the 'Remember Me' before login. By default, I try to set the cookie expired until 1 week.
