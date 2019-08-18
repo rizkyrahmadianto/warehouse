@@ -7,6 +7,11 @@ class Auth extends CI_Controller
 	public function __construct()
 	{
 		parent::__construct();
+
+		// TO HANDLE ERROR
+		/* set_exception_handler(array($this, 'exception_handler'));
+		set_error_handler(array($this, "log_error"));
+		register_shutdown_function(array($this, "fatal_handler")); */
 	}
 
 	private function _login()
