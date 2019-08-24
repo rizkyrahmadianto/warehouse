@@ -8,17 +8,17 @@
         <div class="row">
             <div class="col-lg-6">
                 <?php if ($this->session->flashdata('success')) { ?>
-                <div class="alert alert-success alert-dismissible">
-                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                    <h4><i class="icon fa fa-check"></i> Alert!</h4>
-                    <?php echo $this->session->flashdata('success'); ?>
-                </div>
+                    <div class="alert alert-success alert-dismissible">
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                        <h4><i class="icon fa fa-check"></i> Alert!</h4>
+                        <?php echo $this->session->flashdata('success'); ?>
+                    </div>
                 <?php } else if ($this->session->flashdata('error')) { ?>
-                <div class="alert alert-danger alert-dismissible">
-                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                    <h4><i class="icon fa fa-ban"></i> Alert!</h4>
-                    <?php echo $this->session->flashdata('error'); ?>
-                </div>
+                    <div class="alert alert-danger alert-dismissible">
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                        <h4><i class="icon fa fa-ban"></i> Alert!</h4>
+                        <?php echo $this->session->flashdata('error'); ?>
+                    </div>
                 <?php } ?>
             </div>
         </div>
@@ -41,11 +41,11 @@
                             <option value="">Choose Menu</option>
 
                             <?php foreach ($menu as $m) : ?>
-                            <?php if ($m['id'] == $submenu['menu_id']) : ?>
-                            <option value="<?php echo $m['id'] ?>" selected><?php echo $m['menu'] ?></option>
-                            <?php else : ?>
-                            <option value="<?php echo $m['id'] ?>"><?php echo $m['menu'] ?></option>
-                            <?php endif; ?>
+                                <?php if ($m['id'] == $submenu['menu_id']) : ?>
+                                    <option value="<?php echo $m['id'] ?>" selected><?php echo $m['menu'] ?></option>
+                                <?php else : ?>
+                                    <option value="<?php echo $m['id'] ?>"><?php echo $m['menu'] ?></option>
+                                <?php endif; ?>
                             <?php endforeach; ?>
 
                         </select>
@@ -64,11 +64,11 @@
                     <div class="form-group form-check">
                         <label>
                             <?php if ($submenu['is_active'] == 1) : ?>
-                            <input type="checkbox" name="active" id="active" value="<?php echo $submenu['is_active'] ?>" checked>
-                            Active ?
+                                <input type="checkbox" class="form-check-input" name="active" id="active" value="<?php echo $submenu['is_active'] ?>" checked>
+                                Active ?
                             <?php else : ?>
-                            <input type="checkbox" name="active" id="active" value="<?php echo $submenu['is_active'] ?>">
-                            Active ?
+                                <input type="checkbox" class="form-check-input" name="active" id="active" value="<?php echo $submenu['is_active'] ?>">
+                                Active ?
                             <?php endif; ?>
                         </label>
                     </div>

@@ -117,6 +117,7 @@
       </script>
 
       <script src="<?php echo base_url(); ?>assets/js/format-money.js"></script>
+      <script src="<?php echo base_url(); ?>assets/js/search_autocomplete.js"></script>
       </body>
 
       </html>
