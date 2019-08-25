@@ -223,7 +223,7 @@ $config['allow_get_array'] = TRUE;
 | your log files will fill up very fast.
 |
 */
-$config['log_threshold'] = 0;
+$config['log_threshold'] = 1;
 
 /*
 |--------------------------------------------------------------------------
@@ -324,7 +324,7 @@ $config['cache_query_string'] = FALSE;
 | https://codeigniter.com/user_guide/libraries/encryption.html
 |
 */
-$config['encryption_key'] = 'warehouse';
+$config['encryption_key'] = '';
 
 /*
 |--------------------------------------------------------------------------
@@ -382,7 +382,7 @@ $config['sess_cookie_name'] = 'warehouse';
 $config['sess_expiration'] = 604800;
 $config['sess_save_path'] = APPPATH . 'ci_session/';
 $config['sess_match_ip'] = FALSE;
-$config['sess_time_to_update'] = 60; //just for regenerate testing
+$config['sess_time_to_update'] = 300; //just for regenerate testing
 $config['sess_regenerate_destroy'] = FALSE;
 
 /*

@@ -20,8 +20,8 @@ class Auth extends CI_Controller
 			if ($user['is_active'] == 1) {
 				if (password_verify($pass, $user['password'])) {
 					$file = [
-						'email' 	=> $this->security->xss_clean(html_escape($user['email'])),
-						'role_id'	=> $this->security->xss_clean(html_escape($user['role_id']))
+						'email' 	=> $user['email'],
+						'role_id'	=> $user['role_id']
 					];
 
 					$this->session->set_userdata($file);
