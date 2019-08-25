@@ -1,13 +1,13 @@
 	<!-- Begin Page Content -->
 	<div class="container-fluid">
 
-	    <!-- 404 Error Text -->
-	    <div class="text-center">
-	        <div class="error mx-auto" data-text="404">404</div>
-	        <p class="lead text-gray-800 mb-5">Page Not Found</p>
-	        <p class="text-gray-500 mb-0">It looks like you found a glitch in the matrix...</p>
-	        <a href="<?php echo base_url(); ?>user">&larr; Return to User Menu</a>
-	    </div>
+		<!-- 401 Error Text -->
+		<div class="text-center">
+			<div class="error mx-auto" data-text="401">401</div>
+			<p class="lead text-gray-800 mb-5">Access is Denied</p>
+			<p class="text-gray-500 mb-0">It looks like you found a glitch in the matrix...</p>
+			<a href="<?php echo base_url(); ?>user">&larr; Return to User Menu</a>
+		</div>
 
 	</div>
 	<!-- /.container-fluid -->
@@ -33,59 +33,59 @@
 	<script src="<?php echo base_url(); ?>assets/sweet_alert/dist/sweetalert2.all.min.js"></script>
 
 	<script>
-	    $('.button-delete').on('click', function(e) {
+		$('.button-delete').on('click', function(e) {
 
-	        e.preventDefault();
-	        const href = $(this).attr('href');
+			e.preventDefault();
+			const href = $(this).attr('href');
 
-	        Swal.fire({
-	            title: 'Are you sure?',
-	            text: "You won't be able to revert this!",
-	            type: 'warning',
-	            showCancelButton: true,
-	            confirmButtonColor: '#3085d6',
-	            cancelButtonColor: '#d33',
-	            confirmButtonText: 'Delete'
-	        }).then((result) => {
-	            if (result.value) {
-	                document.location.href = href;
-	            }
-	        });
-	    });
+			Swal.fire({
+				title: 'Are you sure?',
+				text: "You won't be able to revert this!",
+				type: 'warning',
+				showCancelButton: true,
+				confirmButtonColor: '#3085d6',
+				cancelButtonColor: '#d33',
+				confirmButtonText: 'Delete'
+			}).then((result) => {
+				if (result.value) {
+					document.location.href = href;
+				}
+			});
+		});
 	</script>
 
 	<script>
-	    $(document).ready(function() {
-	        $('.sidebar-menu').tree()
-	    })
+		$(document).ready(function() {
+			$('.sidebar-menu').tree()
+		})
 	</script>
 
 	<script>
-	    //untuk image file reader
-	    $('.custom-file-input').on('change', function() {
-	        let fileName = $(this).val().split('\\').pop();
-	        $(this).next('.custom-file-label').addClass("selected").html(fileName);
-	    });
+		//untuk image file reader
+		$('.custom-file-input').on('change', function() {
+			let fileName = $(this).val().split('\\').pop();
+			$(this).next('.custom-file-label').addClass("selected").html(fileName);
+		});
 
-	    //untuk ajax role akses 
-	    $('.form-check-input').on('click', function() {
-	        const menuId = $(this).data('menu');
-	        const roleId = $(this).data('role');
+		//untuk ajax role akses 
+		$('.form-check-input').on('click', function() {
+			const menuId = $(this).data('menu');
+			const roleId = $(this).data('role');
 
-	        $.ajax({
-	            url: "<?php echo base_url('admin/accessupdate') ?>",
-	            type: "POST",
-	            data: {
-	                //object data: variabel(yang diambil dari checkbox)
-	                menuId: menuId,
-	                roleId: roleId
-	            },
-	            success: function() {
-	                document.location.href = "<?php echo base_url('admin/accessrole/'); ?>" + roleId;
-	            }
-	        });
+			$.ajax({
+				url: "<?php echo base_url('admin/accessupdate') ?>",
+				type: "POST",
+				data: {
+					//object data: variabel(yang diambil dari checkbox)
+					menuId: menuId,
+					roleId: roleId
+				},
+				success: function() {
+					document.location.href = "<?php echo base_url('admin/accessrole/'); ?>" + roleId;
+				}
+			});
 
-	    });
+		});
 	</script>
 
 	<script src="<?php echo base_url(); ?>assets/js/format-money.js"></script>

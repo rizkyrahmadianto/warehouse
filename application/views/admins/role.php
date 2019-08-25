@@ -29,17 +29,17 @@
         <div class="row">
             <div class="col-lg-12">
                 <?php if ($this->session->flashdata('success')) { ?>
-                    <div class="alert alert-success alert-dismissible">
-                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                        <h4><i class="icon fa fa-check"></i> Alert!</h4>
-                        <?php echo $this->session->flashdata('success'); ?>
-                    </div>
+                <div class="alert alert-success alert-dismissible">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                    <h4><i class="icon fa fa-check"></i> Alert!</h4>
+                    <?php echo $this->session->flashdata('success'); ?>
+                </div>
                 <?php } else if ($this->session->flashdata('error')) { ?>
-                    <div class="alert alert-danger alert-dismissible">
-                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                        <h4><i class="icon fa fa-ban"></i> Alert!</h4>
-                        <?php echo $this->session->flashdata('error'); ?>
-                    </div>
+                <div class="alert alert-danger alert-dismissible">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                    <h4><i class="icon fa fa-ban"></i> Alert!</h4>
+                    <?php echo $this->session->flashdata('error'); ?>
+                </div>
                 <?php } ?>
             </div>
         </div>
@@ -61,20 +61,20 @@
                         <?php
                         if ($role) :
                             foreach ($role as $r) : ?>
-                                <tr>
-                                    <td><?php echo ++$start; ?></td>
-                                    <td><?php echo $r['role']; ?></td>
-                                    <td>
-                                        <a href="<?php echo base_url() ?>admin/deleterole/<?php echo $r['id'] ?>" class="btn btn-sm btn-danger button-delete">Delete</a>
-                                        <a href="<?php echo base_url() ?>admin/editrole/<?php echo $r['id'] ?>" class="btn btn-sm btn-warning">Edit</a>
-                                        <a href="<?php echo base_url() ?>admin/accessrole/<?php echo $r['id'] ?>" class="btn btn-sm btn-success">Access</a>
-                                    </td>
-                                </tr>
-                            <?php endforeach; ?>
+                        <tr>
+                            <td><?php echo ++$start; ?></td>
+                            <td><?php echo $r['role']; ?></td>
+                            <td>
+                                <a href="<?php echo base_url() ?>admin/deleterole/<?php echo $r['id'] ?>" class="btn btn-sm btn-danger button-delete">Delete</a>
+                                <a href="<?php echo base_url() ?>admin/editrole/<?php echo $r['id'] ?>" class="btn btn-sm btn-warning">Edit</a>
+                                <a href="<?php echo base_url() ?>admin/accessrole/<?php echo $r['id'] ?>" class="btn btn-sm btn-success">Access</a>
+                            </td>
+                        </tr>
+                        <?php endforeach; ?>
                         <?php else : ?>
-                            <tr>
-                                <td colspan="3" style="text-align: center">Data not found !</td>
-                            </tr>
+                        <tr>
+                            <td colspan="3" style="text-align: center">Data not found !</td>
+                        </tr>
                         <?php endif; ?>
                     </tbody>
                 </table>

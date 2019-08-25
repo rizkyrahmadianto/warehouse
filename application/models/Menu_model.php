@@ -14,15 +14,8 @@ class Menu_model extends CI_Model
         return $this->db->get_where('user_menu', ['id' => $id])->row_array();
     }
 
-    public function getAllMenu($limit, $offset, $keyword)
+    public function getAllMenu($limit, $offset)
     {
-        if ($keyword) {
-            $this->db->like('id', $keyword);
-            $this->db->or_like('menu', $keyword);
-        }
-
-        $this->db->order_by('menu', 'ASC'); // must be specify which the part of table
-
         $query = $this->db->get('user_menu', $limit, $offset);
         return $query->result_array();
     }

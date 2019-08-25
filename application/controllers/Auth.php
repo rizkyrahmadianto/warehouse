@@ -303,7 +303,7 @@ class Auth extends CI_Controller
 		$this->session->unset_userdata('email');
 		$this->session->unset_userdata('role_id');
 
-		//$this->session->set_flashdata('success', 'You have been logout !');
+		$this->session->set_flashdata('success', 'You have been logout !');
 		redirect('auth', 'refresh');
 	}
 
@@ -311,7 +311,7 @@ class Auth extends CI_Controller
 	public function denied()
 	{
 		$info['title']	= "Oops! Access Denied";
-		$this->load->view('templates/header', $info);
-		$this->load->view('auths/denied');
+		$this->load->view('template/header', $info);
+		$this->load->view('auth/denied');
 	}
 }
