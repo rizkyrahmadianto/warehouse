@@ -72,7 +72,15 @@
                             <td><?php echo $sm['menu']; ?></td>
                             <td><?php echo $sm['url']; ?></td>
                             <td><?php echo $sm['icon']; ?></td>
-                            <td><?php echo $sm['is_active']; ?></td>
+                            <td>
+                                <?php
+                                        if ($sm['is_active'] == 1) {
+                                            echo "<p class='badge badge-success'>Active</p>";
+                                        } else {
+                                            echo "<p class='badge badge-danger'>Inactive</p>";
+                                        }
+                                        ?>
+                            </td>
                             <td>
                                 <a href="<?php echo base_url() ?>deletesubmenu/<?php echo $sm['id'] ?>" class="btn btn-sm btn-danger button-delete">Delete</a>
                                 <a href="<?php echo base_url() ?>menu/editsubmenu/<?php echo $sm['id'] ?>" class="btn btn-sm btn-warning">Edit</a>

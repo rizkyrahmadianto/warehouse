@@ -382,7 +382,7 @@ $config['sess_cookie_name'] = 'warehouse';
 $config['sess_expiration'] = 604800;
 $config['sess_save_path'] = APPPATH . 'ci_session/';
 $config['sess_match_ip'] = FALSE;
-$config['sess_time_to_update'] = 300; //just for regenerate testing
+$config['sess_time_to_update'] = 60; //just for regenerate testing and must change 300 to 60
 $config['sess_regenerate_destroy'] = FALSE;
 
 /*

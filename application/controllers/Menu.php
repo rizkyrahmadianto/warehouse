@@ -11,6 +11,8 @@ class Menu extends CI_Controller
         checkSessionLog();
     }
 
+    /* MENU CONTROLL */
+
     public function index()
     {
         $info['title']     = 'Management Menu';
@@ -132,6 +134,10 @@ class Menu extends CI_Controller
         redirect('menu', 'refresh');
     }
 
+    /* END OF MENU CONTROLL */
+
+    /* SUBMENU CONTROLL */
+
     public function subMenu()
     {
         $info['title']         = 'Management Sub Menu';
@@ -242,10 +248,10 @@ class Menu extends CI_Controller
 
     public function editSubMenu($id)
     {
-        $info['title']         = 'Edit Management Sub Menu';
-        $info['user']          = $this->Auth_model->getUserSession();
+        $info['title']      = 'Edit Management Sub Menu';
+        $info['user']       = $this->Auth_model->getUserSession();
         $info['submenu']    = $this->Menu_model->getSubMenuById($id);
-        $info['menu']        = $this->Menu_model->getAllMenu_();
+        $info['menu']       = $this->Menu_model->getAllMenu_();
 
         $this->form_validation->set_rules('menu_opt', 'menu option', 'trim|required');
         $this->form_validation->set_rules('name', 'submenu name', 'trim|required|min_length[3]');
@@ -286,4 +292,6 @@ class Menu extends CI_Controller
         $this->session->set_flashdata('success', 'Deleted !');
         redirect('menu/submenu', 'refresh');
     }
+
+    /* END OF SUBMENU CONTROLL */
 }
