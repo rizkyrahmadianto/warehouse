@@ -11,15 +11,30 @@ function checkSessionLog()
         // Karena ngecek http://localhost/sensus/menu "Menu"-nya segment = 1, 
         // Kalau http://localhost/sensus/menu/add "add"nya segment = 2 dst
         $menu = $check->uri->segment(1);
-        $query = $check->db->get_where('user_menu', ['menu' => $menu])->row_array();
-        $id_menu = $query['id'];
+
+        //  Metod ini hanya menjawab jika submenu hanya sedikit
+        // $query = $check->db->get_where('user_menu', ['menu' => $menu])->row_array();
+        // $id_menu = $query['id'];
+
+        // $access = $check->db->get_where('user_access_menu', [
+        //     'role_id' => $id_role,
+        //     'menu_id' => $id_menu
+        // ]);
+
+        // if ($access->num_rows() < 1) {
+        //     redirect('auth/denied');
+        // }
+
+        //  Metode ini hanya menjawab jika submenu banyak
+        $query = $check->db->get_where('user_sub_menu', ['level' => $menu])->row_array();
+        $id_menu = $query['menu_id'];
 
         $access = $check->db->get_where('user_access_menu', [
             'role_id' => $id_role,
             'menu_id' => $id_menu
-        ]);
+        ])->row_array();
 
-        if (!$access->num_rows() == 1) {
+        if (empty($access)) {
             redirect('auth/denied');
         }
     }

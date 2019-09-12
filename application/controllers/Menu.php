@@ -153,11 +153,17 @@ class Menu extends CI_Controller
         // SEARCHING
 
         // DB PAGINATION FOR SEARCHING
-        $this->db->like('id', $info['keyword']);
-        $this->db->or_like('title', $info['keyword']);
+        $this->db->select('*');
+        $this->db->from('user_sub_menu');
+        $this->db->join('user_menu', 'user_menu.id = user_sub_menu.menu_id');
+
+        $this->db->like('title', $info['keyword']);
+        $this->db->or_like('menu', $info['keyword']);
         $this->db->or_like('url', $info['keyword']);
         $this->db->or_like('icon', $info['keyword']);
-        $this->db->from('user_sub_menu');
+        $this->db->or_like('level', $info['keyword']);
+
+        // $this->db->from('user_sub_menu');
         // DB PAGINATION FOR SEARCHING
 
         /* Untuk menambahkan fitur jumlah berapa rows cari yang ada bisa menggunakan cara
@@ -223,6 +229,7 @@ class Menu extends CI_Controller
         $this->form_validation->set_rules('menu_opt', 'menu option', 'trim|required');
         $this->form_validation->set_rules('url', 'url', 'trim|required|min_length[3]');
         $this->form_validation->set_rules('icon', 'icon', 'trim|required|min_length[3]');
+        $this->form_validation->set_rules('level', 'level', 'trim|required|min_length[3]|matches[url]');
         $this->form_validation->set_rules('active', 'active submenu');
 
         $data = [
@@ -230,6 +237,7 @@ class Menu extends CI_Controller
             'url'       => $this->security->xss_clean(html_escape($this->input->post('url', true))),
             'title'     => $this->security->xss_clean(html_escape($this->input->post('name', true))),
             'icon'      => $this->security->xss_clean(html_escape($this->input->post('icon', true))),
+            'level'       => $this->security->xss_clean(html_escape($this->input->post('level', true))),
             'is_active' => $this->security->xss_clean(html_escape($this->input->post('active', true)))
         ];
 
@@ -257,6 +265,7 @@ class Menu extends CI_Controller
         $this->form_validation->set_rules('name', 'submenu name', 'trim|required|min_length[3]');
         $this->form_validation->set_rules('url', 'url', 'trim|required|min_length[3]');
         $this->form_validation->set_rules('icon', 'icon', 'trim|required|min_length[3]');
+        $this->form_validation->set_rules('level', 'level', 'trim|required|min_length[3]|matches[url]');
         $this->form_validation->set_rules('active', 'active submenu');
 
         if ($this->input->post('active', true) == null) {
@@ -270,6 +279,7 @@ class Menu extends CI_Controller
             'title'     => $this->security->xss_clean(html_escape($this->input->post('name', true))),
             'url'       => $this->security->xss_clean(html_escape($this->input->post('url', true))),
             'icon'      => $this->security->xss_clean(html_escape($this->input->post('icon', true))),
+            'level'       => $this->security->xss_clean(html_escape($this->input->post('level', true))),
             'is_active' => $status
         ];
 

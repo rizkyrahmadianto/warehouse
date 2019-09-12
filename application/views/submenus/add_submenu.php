@@ -56,6 +56,11 @@
                         <input type="text" class="form-control" id="icon" name="icon" placeholder="fas fa-..." value="<?php echo set_value('icon'); ?>">
                         <small class="form-text text-danger"><?= form_error('icon'); ?></small>
                     </div>
+                    <div class="form-group">
+                        <label for="level">Level Sub Menu</label>
+                        <input type="text" class="form-control" id="level" name="level" placeholder="Enter sub menu level same as sub menu url" value="<?php echo set_value('level'); ?>">
+                        <small class="form-text text-danger"><?= form_error('level'); ?></small>
+                    </div>
                     <div class="form-group form-check">
                         <label>
                             <input type="checkbox" class="form-check-input" name="active" id="active" value="1" checked>

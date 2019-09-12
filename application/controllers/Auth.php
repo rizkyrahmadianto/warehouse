@@ -26,23 +26,26 @@ class Auth extends CI_Controller
 
 					$this->session->set_userdata($file);
 
-
-					/* $this->input->set_cookie(array(
-						'name' => 'remember_me_token',
-						'value' => 'Warehouse Remember Me',
-						'expire' => '604800',
-						'domain' => 'http://localhost/warehouse/',
+					$cookie = array(
+						'name' => 'Warehouse',
+						'value' => $this->session->set_userdata($file),
+						'expire' => 604800,
+						'domain' => base_url(),
 						'path' => '/',
-						'secure' => true,
-						'httponly' => true
-					)); */
+						'prefix' => 'mywarehouse_',
+						'secure' => TRUE
+					);
+
+					if ($this->input->post("customCheck")) {
+						$this->input->set_cookie($cookie);
+					}
 
 					// ini didapatkan dari setting config di file config.php`
-					if ($this->input->post("customCheck")) {
+					/* if ($this->input->post("customCheck")) {
 						$this->session->set_userdata($file);
 						$cookie = $this->input->cookie('warehouse'); // we get the cookie
 						$this->input->set_cookie('warehouse', $cookie, '604800');
-					}
+					} */
 					// ini didapatkan dari setting config di file config.php`
 
 					if ($user['role_id'] == 1) {
@@ -303,6 +306,15 @@ class Auth extends CI_Controller
 		$this->session->unset_userdata('email');
 		$this->session->unset_userdata('role_id');
 
+		$cookie = array(
+			'name' => 'Warehouse',
+			'domain' => 'http://localhost/warehouse/',
+			'path' => '/',
+			'prefix' => 'mywarehouse_'
+		);
+
+		delete_cookie($cookie);
+
 		$this->session->set_flashdata('success', 'You have been logout !');
 		redirect('auth', 'refresh');
 	}
@@ -311,7 +323,7 @@ class Auth extends CI_Controller
 	public function denied()
 	{
 		$info['title']	= "Oops! Access Denied";
-		$this->load->view('template/header', $info);
-		$this->load->view('auth/denied');
+		$this->load->view('templates/header', $info);
+		$this->load->view('auths/denied');
 	}
 }

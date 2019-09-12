@@ -14,8 +14,14 @@ class Menu_model extends CI_Model
         return $this->db->get_where('user_menu', ['id' => $id])->row_array();
     }
 
-    public function getAllMenu($limit, $offset)
+    public function getAllMenu($limit, $offset, $keyword)
     {
+        if ($keyword) {
+            $this->db->like('menu', $keyword);
+        }
+
+        $this->db->order_by('menu', 'ASC');
+
         $query = $this->db->get('user_menu', $limit, $offset);
         return $query->result_array();
     }
@@ -56,15 +62,17 @@ class Menu_model extends CI_Model
     public function getAllSubMenu($limit, $offset, $keyword)
     {
         if ($keyword) {
-            $this->db->like('user_sub_menu.menu_id', $keyword);
-            $this->db->or_like('title', $keyword);
+            $this->db->like('title', $keyword);
+            $this->db->or_like('menu', $keyword);
             $this->db->or_like('url', $keyword);
             $this->db->or_like('icon', $keyword);
+            $this->db->or_like('level', $keyword);
         }
 
-        $this->db->select('user_sub_menu.*, user_menu.menu');
+        // $this->db->select('user_sub_menu.*, user_menu.menu');
+        $this->db->select('*, user_sub_menu.id as submenu_id');
         $this->db->from('user_sub_menu');
-        $this->db->join('user_menu', 'user_sub_menu.menu_id = user_menu.id');
+        $this->db->join('user_menu', 'user_menu.id = user_sub_menu.menu_id');
 
         $this->db->order_by('title', 'ASC'); // must be specify which the part of table
 

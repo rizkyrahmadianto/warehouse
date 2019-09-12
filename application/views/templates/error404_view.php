@@ -29,10 +29,9 @@
     <div class="container-fluid">
 
       <!-- 404 Error Text -->
-      <div class="text-center">
+      <div class="text-center mt-5">
         <div class="error mx-auto" data-text="404">404</div>
         <p class="lead text-gray-800 mb-5">Page Not Found</p>
-        <p class="text-gray-500 mb-0">It looks like you found a glitch in the matrix...</p>
         <a href="<?php echo base_url(); ?>user">&larr; Return to User Menu</a>
       </div>
 
@@ -47,17 +46,7 @@
     <script src="<?php echo base_url(); ?>assets/vendor/jquery-easing/jquery.easing.min.js"></script>
 
     <!-- Custom scripts for all pages-->
-    <script src="<?php echo base_url(); ?>assets/js/sb-admin-2.min.js"></script>
-
-    <!-- Page level plugins -->
-    <script src="<?php echo base_url(); ?>assets/vendor/chart.js/Chart.min.js"></script>
-
-    <!-- Page level custom scripts -->
-    <script src="<?php echo base_url(); ?>assets/js/demo/chart-area-demo.js"></script>
-    <script src="<?php echo base_url(); ?>assets/js/demo/chart-pie-demo.js"></script>
-
-    <!-- Custom Script -->
-    <script src="<?php echo base_url(); ?>assets/sweet_alert/dist/sweetalert2.all.min.js"></script>
+    <script src="<?php echo base_url(); ?>assets/js/sb-admin-2.min.js"></script>script>
 </body>
 
 </html>

@@ -100,64 +100,6 @@
 
 
     <!-- DataTales Example -->
-    <!-- <div class="card shadow mb-4">
-        <div class="card-body">
-            <div class="table-responsive">
-                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                    <thead>
-                        <tr>
-                            <th>No</th>
-                            <th>Nama Daerah</th>
-                            <th>Id</th>
-                            <th>Jumlah Penduduk</th>
-                            <th>Total Pendapatan</th>
-                            <th>Rata-Rata Pendapatan</th>
-                            <th>Status</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php
-                        if (count($data) > 0) :
-                            $no = $this->uri->segment(3) + 1;
-                            foreach ($data as $d) :
-                                ?>
-                                        <tr>
-                                            <td><?php echo $no++; ?></td>
-                                            <td><?php echo $d['regname']; ?></td>
-                                            <td><?php echo $d['regid']; ?></td>
-                                            <td><?php echo $d['jumlah']; ?></td>
-                                            <td><?php echo "Rp. " . number_format($d['total'], 0, ',', '.'); ?></td>
-                                            <td><?php echo "Rp. " . number_format($d['rata_rata'], 0, ',', '.'); ?></td>
-                                            <td>
-                                                <?php
-                                                if ($d['rata_rata'] > 2200000) {
-                                                    echo '<span class="badge badge-success">Great</span>';
-                                                } else if (($d['rata_rata'] > 1700000) && ($d['rata_rata'] < 2200000)) {
-                                                    echo '<span class="badge badge-warning">Warning</span>';
-                                                } else {
-                                                    echo '<span class="badge badge-danger">Danger</span>';
-                                                }
-                                                ?>
-                                            </td>
-                                        </tr>
-                                <?php
-                                endforeach;
-                            else :
-                                ?>
-                                <tr>
-                                    <td colspan="7" align="center">No data record / found.</td>
-                                </tr>
-                        <?php endif; ?>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-12">
-                <?php echo $pagination; ?>
-            </div>
-        </div>
-    </div> -->
 
 </div>
 <!-- /.container-fluid -->

@@ -50,15 +50,17 @@
       <!-- Custom scripts for all pages-->
       <script src="<?php echo base_url(); ?>assets/js/sb-admin-2.min.js"></script>
 
-      <!-- Page level plugins -->
-      <script src="<?php echo base_url(); ?>assets/vendor/chart.js/Chart.min.js"></script>
-
-      <!-- Page level custom scripts -->
-      <script src="<?php echo base_url(); ?>assets/js/demo/chart-area-demo.js"></script>
-      <script src="<?php echo base_url(); ?>assets/js/demo/chart-pie-demo.js"></script>
-
       <!-- Custom Script -->
       <script src="<?php echo base_url(); ?>assets/sweet_alert/dist/sweetalert2.all.min.js"></script>
+
+      <!-- CLOSE ALERT AUTOMATICALLY -->
+      <script>
+        window.setTimeout(function() {
+          $(".alert").fadeTo(1000, 500).slideUp(500, function() {
+            $(this).remove();
+          });
+        })
+      </script>
 
       <script>
         $('.button-delete').on('click', function(e) {
@@ -82,11 +84,11 @@
         });
       </script>
 
-      <script>
+      <!-- <script>
         $(document).ready(function() {
           $('.sidebar-menu').tree()
         })
-      </script>
+      </script> -->
 
       <script>
         //untuk image file reader
@@ -96,7 +98,7 @@
         });
 
         //untuk ajax role akses 
-        $('.form-check-input').on('click', function() {
+        $('.check-access').on('click', function() {
           const menuId = $(this).data('menu');
           const roleId = $(this).data('role');
 
@@ -117,6 +119,7 @@
       </script>
 
       <script src="<?php echo base_url(); ?>assets/js/format-money.js"></script>
+      <!-- <script src="<?php echo base_url(); ?>assets/js/customer_modal_ajax.js"></script> -->
       </body>
 
       </html>
