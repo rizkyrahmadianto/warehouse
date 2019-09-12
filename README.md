@@ -1,3 +1,6 @@
+# REMEMBER
+Please checkout or clone branch on Branch_stage1
+
 # IF YOU WANT RUNNING THIS APP INTO YOUR LOCAL
 1. Download XAMPP (its free) https://www.apachefriends.org/download.html
 2. Intall it like usually you installed app 
