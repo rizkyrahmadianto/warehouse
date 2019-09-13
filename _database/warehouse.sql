@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 12, 2019 at 08:26 AM
+-- Generation Time: Sep 13, 2019 at 08:04 AM
 -- Server version: 10.3.16-MariaDB
 -- PHP Version: 7.3.7
 
@@ -106,7 +106,7 @@ CREATE TABLE `products` (
   `product_name` varchar(128) NOT NULL,
   `brand_id` varchar(32) NOT NULL,
   `category_id` varchar(32) NOT NULL,
-  `image` varchar(255) NOT NULL,
+  `image` varchar(255) DEFAULT NULL,
   `description` text NOT NULL,
   `price` int(11) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
@@ -118,9 +118,7 @@ CREATE TABLE `products` (
 --
 
 INSERT INTO `products` (`product_id`, `product_name`, `brand_id`, `category_id`, `image`, `description`, `price`, `created_at`, `updated_at`) VALUES
-('1', 'Deterjen Cair', 'BRD-1811120919', 'CAT-1811060919', '', 'asdasdasdasdasdasdasd', 5500, '2019-09-10 16:21:01', '0000-00-00 00:00:00'),
-('2', 'dsadsadsadsa', 'BRD-1823050919', 'CAT-1823160919', 'dsadsadsa', '123qweasdzxcasd', 5500, '2019-09-10 16:24:54', '0000-00-00 00:00:00'),
-('PROD-0814290919', 'zxcasdqwe', 'BRD-1823050919', 'CAT-1823160919', '', 'adasdasdqwe', 12300, '2019-09-12 06:15:33', '2019-09-12 13:15:33');
+('PROD-0754100919', 'zxcasdqwe', 'BRD-1811120919', 'CAT-1823160919', 'product_1568354050.jpg', 'qweaszxc123', 7200, '2019-09-13 05:54:10', '0000-00-00 00:00:00');
 
 -- --------------------------------------------------------
 
@@ -171,6 +169,13 @@ CREATE TABLE `product_stocks` (
   `product_id` varchar(32) NOT NULL,
   `quantity` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `product_stocks`
+--
+
+INSERT INTO `product_stocks` (`supplier_id`, `product_id`, `quantity`) VALUES
+('SPL-1948070919', 'PROD-0754100919', 25);
 
 -- --------------------------------------------------------
 
@@ -350,7 +355,8 @@ INSERT INTO `user_sub_menu` (`id`, `menu_id`, `title`, `url`, `icon`, `is_active
 (16, 7, 'Accounts Receivable Report', 'accounts-receivable-report', 'fas fa-print', 1, 'accounts-receivable-report'),
 (17, 3, 'Product Category', 'category', 'fas fa-layer-group', 1, 'category'),
 (18, 3, 'Product Brand', 'brand', 'fas fa-tags', 1, 'brand'),
-(22, 4, 'Management Sub Menu', 'menu/submenu', 'fas fa-bars', 1, 'menu/submenu');
+(22, 4, 'Management Sub Menu', 'menu/submenu', 'fas fa-bars', 1, 'menu/submenu'),
+(23, 3, 'Stock', 'stock', 'fas fa-truck-loading', 1, 'stock');
 
 -- --------------------------------------------------------
 
@@ -596,7 +602,7 @@ ALTER TABLE `user_status`
 -- AUTO_INCREMENT for table `user_sub_menu`
 --
 ALTER TABLE `user_sub_menu`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
 -- AUTO_INCREMENT for table `user_token`

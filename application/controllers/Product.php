@@ -89,6 +89,25 @@ class Product extends CI_Controller
     $this->load->view('templates/footer');
   }
 
+  private function _uploadImage()
+  {
+
+    $config['upload_path'] = './assets/product_images/';
+    $config['allowed_types'] = 'gif|jpg|png|jpeg|gif';
+    $config['file_name'] = 'product_' . time();
+    $config['max_size']  = '2000';
+    $config['overwrite'] = true;
+    // $config['max_width']  = '1024';
+    // $config['max_height']  = '768';
+    // $config['remove_space'] = TRUE;
+
+    $this->load->library('upload', $config);
+
+    if ($this->upload->do_upload('image')) {
+      return $this->upload->data('file_name');
+    }
+  }
+
   public function addProduct()
   {
     $info['title'] = "Add Product";
@@ -99,10 +118,10 @@ class Product extends CI_Controller
     $id = "PROD" . "-";
     $customid = $id . date('His') . date("m") . date('y');
 
+    // SET RULES VALIDATION
     $this->form_validation->set_rules('product_name', 'product name', 'trim|required|min_length[5]');
     $this->form_validation->set_rules('brand_id', 'brand', 'trim|required');
     $this->form_validation->set_rules('category_id', 'category', 'trim|required');
-    // $this->form_validation->set_rules('image', 'image', 'trim|required');
     $this->form_validation->set_rules('description', 'description product', 'trim|required|min_length[10]');
     $this->form_validation->set_rules('price', 'product price', 'trim|required');
 
@@ -113,7 +132,7 @@ class Product extends CI_Controller
       'product_name' => $this->security->xss_clean(html_escape($this->input->post('product_name', true))),
       'brand_id' => $this->security->xss_clean(html_escape($this->input->post('brand_id', true))),
       'category_id' => $this->security->xss_clean(html_escape($this->input->post('category_id', true))),
-      // 'image' => $this->security->xss_clean(html_escape($this->input->post('image', true))),
+      'image' => $this->_uploadImage(),
       'description' => $this->security->xss_clean(html_escape($this->input->post('description', true))),
       'price' => $convertCurrency
     ];
@@ -143,21 +162,35 @@ class Product extends CI_Controller
     $this->form_validation->set_rules('product_name', 'product name', 'trim|required|min_length[5]');
     $this->form_validation->set_rules('brand_id', 'brand', 'trim|required');
     $this->form_validation->set_rules('category_id', 'category', 'trim|required');
-    // $this->form_validation->set_rules('image', 'image', 'trim|required');
     $this->form_validation->set_rules('description', 'description product', 'trim|required|min_length[10]');
     $this->form_validation->set_rules('price', 'product price', 'trim|required');
 
     $convertCurrency = preg_replace('/\D/', '', $this->security->xss_clean(html_escape($this->input->post('price', true))));
 
-    $file = [
-      'product_name' => $this->security->xss_clean(html_escape($this->input->post('product_name', true))),
-      'brand_id' => $this->security->xss_clean(html_escape($this->input->post('brand_id', true))),
-      'category_id' => $this->security->xss_clean(html_escape($this->input->post('category_id', true))),
-      // 'image' => $this->security->xss_clean(html_escape($this->input->post('image', true))),
-      'description' => $this->security->xss_clean(html_escape($this->input->post('description', true))),
-      'price' => $convertCurrency,
-      'updated_at' => date('Y-m-d H:i:s')
-    ];
+    // CONDITION EDIT OR NOT AN IMAGE PRODUCT 
+    if (empty($_FILES['image']['name'])) {
+      $file = [
+        'product_name' => $this->security->xss_clean(html_escape($this->input->post('product_name', true))),
+        'brand_id' => $this->security->xss_clean(html_escape($this->input->post('brand_id', true))),
+        'category_id' => $this->security->xss_clean(html_escape($this->input->post('category_id', true))),
+        'description' => $this->security->xss_clean(html_escape($this->input->post('description', true))),
+        'price' => $convertCurrency,
+        'updated_at' => date('Y-m-d H:i:s')
+      ];
+    } else {
+      $file = [
+        'product_name' => $this->security->xss_clean(html_escape($this->input->post('product_name', true))),
+        'brand_id' => $this->security->xss_clean(html_escape($this->input->post('brand_id', true))),
+        'category_id' => $this->security->xss_clean(html_escape($this->input->post('category_id', true))),
+        'image' => $this->_uploadImage(),
+        'description' => $this->security->xss_clean(html_escape($this->input->post('description', true))),
+        'price' => $convertCurrency,
+        'updated_at' => date('Y-m-d H:i:s')
+      ];
+
+      $uploadPath = './assets/product_images/' . $this->input->post('oldimage');
+      @unlink($uploadPath);
+    }
 
     if ($this->form_validation->run() == false) {
       $this->load->view('templates/header', $info);
@@ -174,6 +207,12 @@ class Product extends CI_Controller
 
   public function deleteProduct($id)
   {
+    $rows = $this->db->get_where('products', array('product_id' => $id));
+    $result = $rows->result();
+    foreach ($result as $row) {
+      unlink('./assets/product_images/' . $row->image);
+    }
+
     $this->Product_model->delete($id);
     $this->session->set_flashdata('success', 'Data product has been deleted !');
     redirect('product', 'refresh');

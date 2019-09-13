@@ -1,6 +1,6 @@
 <?php foreach ($customer as $c) : ?>
-  <div class="modal fade bd-example-modal-lg" id="detail-modal<?= $c['customer_id'] ?>" tabindex="-1" role="dialog" aria-hidden="true">
-    <div class="modal-dialog modal-lg" role="document">
+  <div class="modal fade" id="detail-modal<?= $c['customer_id'] ?>" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" role="document">
       <div class="modal-content">
 
         <div class="modal-header">

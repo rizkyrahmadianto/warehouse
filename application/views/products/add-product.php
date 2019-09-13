@@ -62,7 +62,9 @@
           </div>
           <div class="form-group">
             <label for="">Product Image</label>
-            <input type="file" class="form-control-file" id="image" name="image">
+            <!-- <input type="file" class="form-control-file" name="image[]" id="image[]" multiple> -->
+            <input type="file" class="form-control-file" name="image" id="image">
+            <small class="form-text text-danger"><?= form_error('image'); ?></small>
           </div>
           <div class="form-group">
             <label for="">Description Product</label>
@@ -76,7 +78,8 @@
           </div>
           <!-- /.box-body -->
           <a href="<?php echo base_url(); ?>product" class="btn btn-secondary">Back</a>
-          <button type="submit" value="save" name="save" class="btn btn-success pull-right">Save</button>
+          <!-- <button type="submit" value="save" name="save" class="btn btn-success pull-right">Save</button> -->
+          <input type="submit" name="save" value="Save" class="btn btn-success pull-right">
         </form>
       </div>
     </div>

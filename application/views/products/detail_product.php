@@ -1,6 +1,6 @@
 <?php foreach ($product as $p) : ?>
-  <div class="modal fade bd-example-modal-lg" id="detail-modal<?= $p['product_id'] ?>" tabindex="-1" role="dialog" aria-hidden="true">
-    <div class="modal-dialog modal-lg" role="document">
+  <div class="modal fade" id="detail-modal<?= $p['product_id'] ?>" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" role="document">
       <div class="modal-content">
 
         <div class="modal-header">
@@ -31,10 +31,28 @@
             <input type="text" class="form-control" readonly value="<?= $p['category_name']; ?>">
           </div>
 
+          <hr>
+
+          <!-- <div class="form-row">
+            <div class="form-group col-md-4">
+              <label for="">Image</label>
+              <input type="text" class="form-control" readonly value="<?= $p['image']; ?>">
+            </div>
+            <div class="form-group col-md-8">
+              <img src="<?= base_url(); ?>assets/product_images/<?= $p['image'] ?>" class="img-responsive" alt="<?= $p['image'] ?>" width="304" height="236">
+            </div>
+          </div> -->
+
+          <div class="form-group">
+            <img src="<?= base_url(); ?>assets/product_images/<?= $p['image'] ?>" class="img-responsive" alt="<?= $p['image'] ?>" width="304" height="236">
+          </div>
+
           <div class="form-group">
             <label for="">Image</label>
             <input type="text" class="form-control" readonly value="<?= $p['image']; ?>">
           </div>
+
+          <hr>
 
           <div class="form-group">
             <label for="">Description</label>

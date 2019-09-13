@@ -71,7 +71,10 @@
           </div>
           <div class="form-group">
             <label for="">Product Image</label>
-            <input type="file" class="form-control-file" id="image" name="image">
+            <!-- <input type="file" class="form-control-file" name="image[]" multiple> -->
+            <input type="file" class="form-control-file" name="image" id="image">
+            <input type="hidden" class="form-control-file" name="oldimage" id="oldimage" value="<?= $id['image']; ?>">
+            <small class="form-text text-danger"><?= form_error('image'); ?></small>
           </div>
           <div class="form-group">
             <label for="">Description Product</label>
