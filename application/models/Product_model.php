@@ -44,9 +44,9 @@ class Product_model extends CI_Model
     return $this->db->get_where('products', ['product_id' => $id])->row_array();
   }
 
-  public function update($data)
+  public function update($data, $id)
   {
-    $this->db->where('product_id', $this->input->post('id'));
+    $this->db->where('product_id', $id);
     $this->db->update('products', $data);
   }
 

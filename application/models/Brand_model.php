@@ -9,10 +9,10 @@ class Brand_model extends CI_Model
   {
     if ($keyword) {
       $this->db->like('brand_id', $keyword);
-      $this->db->or_like('name', $keyword);
+      $this->db->or_like('brand_name', $keyword);
     }
 
-    $this->db->order_by('name', 'ASC');
+    $this->db->order_by('brand_name', 'ASC');
 
     $query = $this->db->get('product_brands', $limit, $offset);
     return $query->result_array();

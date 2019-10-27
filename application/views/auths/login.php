@@ -14,11 +14,11 @@
               <div class="p-5">
 
                 <?php if ($this->session->flashdata('error')) { ?>
-                <div class="alert alert-danger alert-dismissible">
-                  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                  <h4><i class="icon fa fa-ban"></i> Alert!</h4>
-                  <?php echo $this->session->flashdata('error'); ?>
-                </div>
+                  <div class="alert alert-danger alert-dismissible">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                    <h4><i class="icon fa fa-ban"></i> Alert!</h4>
+                    <?php echo $this->session->flashdata('error'); ?>
+                  </div>
                 <?php } ?>
 
                 <div class="text-center">
@@ -39,12 +39,12 @@
                       <label class="custom-control-label" for="customCheck">Remember Me</label>
                     </div>
                   </div> -->
-                  <div class="form-group">
+                  <!-- <div class="form-group">
                     <div class="custom-control custom-checkbox small">
                       <input type="checkbox" class="custom-control-input" id="customCheck" name="customCheck">
                       <label class="custom-control-label" for="customCheck">Remember Me</label>
                     </div>
-                  </div>
+                  </div> -->
                   <div class="form-group row">
                     <!-- <div class="col-sm-6">
                       <a href="<?php echo base_url() ?>" class="btn btn-secondary btn-user btn-block">Cancel</a>

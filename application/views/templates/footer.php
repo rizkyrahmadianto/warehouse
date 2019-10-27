@@ -39,24 +39,12 @@
           </div>
         </div>
       </div>
-
-      <!-- Bootstrap core JavaScript-->
-      <script src="<?php echo base_url(); ?>assets/vendor/jquery/jquery.min.js"></script>
-      <script src="<?php echo base_url(); ?>assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-
-      <!-- Core plugin JavaScript-->
-      <script src="<?php echo base_url(); ?>assets/vendor/jquery-easing/jquery.easing.min.js"></script>
-
-      <!-- Custom scripts for all pages-->
-      <script src="<?php echo base_url(); ?>assets/js/sb-admin-2.min.js"></script>
-
-      <!-- Custom Script -->
-      <script src="<?php echo base_url(); ?>assets/sweet_alert/dist/sweetalert2.all.min.js"></script>
+      </body>
 
       <!-- CLOSE ALERT AUTOMATICALLY -->
       <script>
         window.setTimeout(function() {
-          $(".alert").fadeTo(1000, 500).slideUp(500, function() {
+          $(".alert").fadeTo(3000, 500).slideUp(500, function() {
             $(this).remove();
           });
         })
@@ -119,7 +107,15 @@
       </script>
 
       <script src="<?php echo base_url(); ?>assets/js/format-money.js"></script>
+      <!-- <script src="<?php echo base_url(); ?>assets/js/simple.money.format.js"></script> -->
+      <!-- <script src="<?php echo base_url(); ?>assets/js/accounting.min.js"></script> -->
+      <!-- <script src="<?php echo base_url(); ?>assets/js/newOrderSales.js"></script> -->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
+      <script src="<?php echo base_url(); ?>assets/js/detail-time-order.js"></script>
       <!-- <script src="<?php echo base_url(); ?>assets/js/customer_modal_ajax.js"></script> -->
-      </body>
+
+      <!-- Select2 -->
+      <script src="<?php echo base_url(); ?>assets/js/select2.full.min.js"></script>
+      <!-- <script src="<?php echo base_url(); ?>assets/js/select2.min.js"></script> -->
 
       </html>

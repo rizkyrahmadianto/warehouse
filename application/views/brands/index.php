@@ -61,7 +61,7 @@
               foreach ($brand as $b) : ?>
                 <tr>
                   <td><?php echo ++$start; ?></td>
-                  <td><?php echo $b['name']; ?></td>
+                  <td><?php echo $b['brand_name']; ?></td>
                   <td>
                     <a href="<?php echo base_url() ?>brand/deletebrand/<?php echo $b['brand_id'] ?>" class="btn btn-sm btn-danger button-delete btn-circle" title="Delete Brand"><i class="fas fa-trash"></i></a>
                     <a href="<?php echo base_url() ?>brand/editbrand/<?php echo $b['brand_id'] ?>" class="btn btn-sm btn-warning btn-circle" title="Edit Brand"><i class="fas fa-pencil-alt"></i></a>

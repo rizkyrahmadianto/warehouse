@@ -27,7 +27,7 @@ class Brand extends CI_Controller
 
     // DB PAGINATION FOR SEARCHING
     $this->db->like('brand_id', $info['keyword']);
-    $this->db->or_like('name', $info['keyword']);
+    $this->db->or_like('brand_name', $info['keyword']);
     $this->db->from('product_brands');
 
     // PAGINATION
@@ -88,13 +88,13 @@ class Brand extends CI_Controller
     $id = "BRD" . "-";
     $customid = $id . date('His') . date("m") . date('y');
 
-    $this->form_validation->set_rules('name', 'brand name', 'trim|required|min_length[5]|is_unique[product_brands.name]', [
+    $this->form_validation->set_rules('name', 'brand name', 'trim|required|min_length[5]|is_unique[product_brands.brand_name]', [
       'is_unique' => 'brand has been registered, please use another brand.'
     ]);
 
     $file = [
       'brand_id' => $customid,
-      'name' => $this->security->xss_clean(html_escape($this->input->post('name', true)))
+      'brand_name' => $this->security->xss_clean(html_escape($this->input->post('name', true)))
     ];
 
     if ($this->form_validation->run() == FALSE) {
@@ -116,12 +116,12 @@ class Brand extends CI_Controller
     $info['user']      = $this->Auth_model->getUserSession();
     $info['id']        = $this->Brand_model->getBrandById($id);
 
-    $this->form_validation->set_rules('name', 'customer name', 'trim|required|min_length[5]|is_unique[product_brands.name]', [
+    $this->form_validation->set_rules('name', 'customer name', 'trim|required|min_length[5]|is_unique[product_brands.brand_name]', [
       'is_unique' => 'brand has been registered, please use another brand.'
     ]);
 
     $file = [
-      'name' => $this->security->xss_clean(html_escape($this->input->post('name', true)))
+      'brand_name' => $this->security->xss_clean(html_escape($this->input->post('name', true)))
     ];
 
     if ($this->form_validation->run() == false) {

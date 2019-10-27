@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.9.0.1
+-- version 4.9.1
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 13, 2019 at 08:04 AM
--- Server version: 10.3.16-MariaDB
--- PHP Version: 7.3.7
+-- Generation Time: Oct 25, 2019 at 07:17 AM
+-- Server version: 10.4.8-MariaDB
+-- PHP Version: 7.1.32
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -34,6 +34,28 @@ CREATE TABLE `banks` (
   `account_number` int(32) NOT NULL,
   `account_name` varchar(128) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `company`
+--
+
+CREATE TABLE `company` (
+  `id` int(11) NOT NULL,
+  `company_name` varchar(32) NOT NULL,
+  `phone` varchar(12) NOT NULL,
+  `address` text NOT NULL,
+  `service_charge_value` int(11) NOT NULL,
+  `vat_charge_value` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `company`
+--
+
+INSERT INTO `company` (`id`, `company_name`, `phone`, `address`, `service_charge_value`, `vat_charge_value`) VALUES
+(1, 'Warehouse.co', '08123456789', 'Jl. Sesama 001/007', 20, 10);
 
 -- --------------------------------------------------------
 
@@ -109,6 +131,8 @@ CREATE TABLE `products` (
   `image` varchar(255) DEFAULT NULL,
   `description` text NOT NULL,
   `price` int(11) NOT NULL,
+  `qty` varchar(16) NOT NULL,
+  `availability` int(1) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `updated_at` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -117,8 +141,10 @@ CREATE TABLE `products` (
 -- Dumping data for table `products`
 --
 
-INSERT INTO `products` (`product_id`, `product_name`, `brand_id`, `category_id`, `image`, `description`, `price`, `created_at`, `updated_at`) VALUES
-('PROD-0754100919', 'zxcasdqwe', 'BRD-1811120919', 'CAT-1823160919', 'product_1568354050.jpg', 'qweaszxc123', 7200, '2019-09-13 05:54:10', '0000-00-00 00:00:00');
+INSERT INTO `products` (`product_id`, `product_name`, `brand_id`, `category_id`, `image`, `description`, `price`, `qty`, `availability`, `created_at`, `updated_at`) VALUES
+('PROD-0754100919', 'zxcasdqwe', 'BRD-1811120919', 'CAT-1823160919', 'product_1568354050.jpg', 'qweaszxc123', 7200, '25', 1, '2019-10-22 04:04:36', '0000-00-00 00:00:00'),
+('PROD-0952071019', 'Minyak Wangi', 'BRD-1823050919', 'CAT-1811060919', 'product_1571471527.png', 'Ini product berbau wangi', 14000, '2', 1, '2019-10-21 16:12:05', '0000-00-00 00:00:00'),
+('PROD-1530291019', 'Sabun Mandi', 'BRD-1811120919', 'CAT-1823160919', 'product_1571491829.jpg', 'Ini sabun mandi', 5500, '13', 1, '2019-10-21 15:53:06', '0000-00-00 00:00:00');
 
 -- --------------------------------------------------------
 
@@ -180,6 +206,126 @@ INSERT INTO `product_stocks` (`supplier_id`, `product_id`, `quantity`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `purchase_debts`
+--
+
+CREATE TABLE `purchase_debts` (
+  `purchase_debt_id` varchar(32) NOT NULL,
+  `order_id` varchar(32) NOT NULL,
+  `debt_paid_history` datetime NOT NULL,
+  `amount_paid` int(11) NOT NULL,
+  `remaining_paid` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `purchase_orders`
+--
+
+CREATE TABLE `purchase_orders` (
+  `order_id` varchar(32) NOT NULL,
+  `supplier_id` varchar(32) NOT NULL,
+  `order_date` datetime NOT NULL,
+  `ship_amount` int(11) NOT NULL,
+  `ship_date` datetime NOT NULL,
+  `tax_amount` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `purchase_order_details`
+--
+
+CREATE TABLE `purchase_order_details` (
+  `order_id` varchar(32) NOT NULL,
+  `product_id` varchar(32) NOT NULL,
+  `unit_price` int(11) NOT NULL,
+  `quantity` int(11) NOT NULL,
+  `discount_amount` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `sales_account_receivables`
+--
+
+CREATE TABLE `sales_account_receivables` (
+  `sales_ar_id` varchar(32) NOT NULL,
+  `order_id` varchar(32) NOT NULL,
+  `ar_paid_history` datetime NOT NULL,
+  `amount_paid` int(32) NOT NULL,
+  `remaining_paid` int(32) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `sales_orders`
+--
+
+CREATE TABLE `sales_orders` (
+  `id` varchar(32) NOT NULL,
+  `customer_name` varchar(32) NOT NULL,
+  `customer_phone` varchar(12) NOT NULL,
+  `customer_address` text NOT NULL,
+  `order_date` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `gross_amount` varchar(32) NOT NULL,
+  `service_charge_rate` varchar(32) NOT NULL,
+  `service_charge` varchar(32) NOT NULL,
+  `vat_charge_rate` varchar(32) NOT NULL,
+  `vat_charge` varchar(32) NOT NULL,
+  `net_amount` varchar(32) NOT NULL,
+  `discount` varchar(32) NOT NULL,
+  `paid_status` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `update_at` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `sales_orders`
+--
+
+INSERT INTO `sales_orders` (`id`, `customer_name`, `customer_phone`, `customer_address`, `order_date`, `gross_amount`, `service_charge_rate`, `service_charge`, `vat_charge_rate`, `vat_charge`, `net_amount`, `discount`, `paid_status`, `user_id`, `update_at`) VALUES
+('SELL-0604361019', 'Bambang Waluyo', '076123978345', 'Jalan Dagu Raya no.07', '2019-10-22 04:04:36', '144000', '20', '28800', '10', '14400', '187200', '', 2, 1, '0000-00-00 00:00:00'),
+('SELL-1223301019', 'Mawar Merah', '81234567', 'Jalan Sesama B no.21 ', '2019-10-21 10:23:30', '46600', '20', '9320', '10', '4660', '60560', '20', 2, 1, '0000-00-00 00:00:00'),
+('SELL-1320221019', 'Sutrisno', '296785234', 'Jalan Cielunyi no.21a', '2019-10-21 11:20:22', '136000', '20', '27200', '10', '13600', '176800', '', 2, 1, '0000-00-00 00:00:00'),
+('SELL-1812051019', 'Joko Wie', '21678234', 'Jalan Baru no.12', '2019-10-21 16:12:05', '140000', '20', '28000', '10', '14000', '182000', '', 2, 1, '0000-00-00 00:00:00'),
+('SELL-1902221019', 'qweqweqwe', '123123123', 'asdasd123123asdasd', '2019-10-20 17:02:22', '14000', '20', '2800', '10', '1400', '18200', '', 2, 1, '0000-00-00 00:00:00');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `sales_order_details`
+--
+
+CREATE TABLE `sales_order_details` (
+  `so_detail_id` int(11) NOT NULL,
+  `order_id` varchar(32) NOT NULL,
+  `product_id` varchar(32) NOT NULL,
+  `qty` int(32) NOT NULL,
+  `unit_price` int(32) NOT NULL,
+  `amount` int(32) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `sales_order_details`
+--
+
+INSERT INTO `sales_order_details` (`so_detail_id`, `order_id`, `product_id`, `qty`, `unit_price`, `amount`) VALUES
+(1, 'SELL-1902221019', 'PROD-0952071019', 1, 14000, 14000),
+(2, 'SELL-1223301019', 'PROD-1530291019', 2, 5500, 11000),
+(3, 'SELL-1320221019', 'PROD-0952071019', 5, 14000, 70000),
+(4, 'SELL-1320221019', 'PROD-1530291019', 12, 5500, 66000),
+(5, 'SELL-1812051019', 'PROD-0952071019', 10, 14000, 140000),
+(6, 'SELL-0604361019', 'PROD-0754100919', 20, 7200, 144000);
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `suppliers`
 --
 
@@ -223,7 +369,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `name`, `email`, `image`, `password`, `role_id`, `is_active`, `created_at`) VALUES
-(1, 'Admin Warehouse', 'r.rahmadianto@yahoo.com', 'default1.png', '$2y$10$ojVg/Mvr9wpLnHNd.9AxXOlpSEWuivT9dQDbnoZx5Hw9MLaCFjmWK', 1, 1, 20190323),
+(1, 'Admin Warehouse', 'admin@admin.com', 'default1.png', '$2y$10$ojVg/Mvr9wpLnHNd.9AxXOlpSEWuivT9dQDbnoZx5Hw9MLaCFjmWK', 1, 1, 20190323),
 (3, 'Budiman', 'budiman@gmail.com', 'default.jpg', '$2y$10$kYvHiIKzCULCqUOVQgcz8.QowPLxheDav5B2VLYc.CPYkFYsqoi.m', 2, 1, 20190323);
 
 -- --------------------------------------------------------
@@ -346,7 +492,7 @@ INSERT INTO `user_sub_menu` (`id`, `menu_id`, `title`, `url`, `icon`, `is_active
 (7, 3, 'Supplier', 'supplier', 'fas fa-people-carry', 1, 'supplier'),
 (8, 2, 'User Controll', 'admin/usercontroll', 'fas fa-user-cog', 1, 'admin'),
 (9, 9, 'Purchasing', 'purchasing', 'fas fa-shopping-basket', 1, 'purchasing'),
-(10, 10, 'Selling', 'selling', 'fas fa-money-check-alt', 1, 'selling'),
+(10, 10, 'Selling', 'sales', 'fas fa-money-check-alt', 1, 'sales'),
 (11, 9, 'Debt', 'debt', 'far fa-arrow-alt-circle-left', 1, 'debt'),
 (12, 10, 'Accounts Receivable', 'accounts-receivable', 'far fa-arrow-alt-circle-right', 1, 'accounts-receivable'),
 (13, 7, 'Purchase Report', 'purchase-report', 'fas fa-print', 1, 'purchase-report'),
@@ -356,7 +502,8 @@ INSERT INTO `user_sub_menu` (`id`, `menu_id`, `title`, `url`, `icon`, `is_active
 (17, 3, 'Product Category', 'category', 'fas fa-layer-group', 1, 'category'),
 (18, 3, 'Product Brand', 'brand', 'fas fa-tags', 1, 'brand'),
 (22, 4, 'Management Sub Menu', 'menu/submenu', 'fas fa-bars', 1, 'menu/submenu'),
-(23, 3, 'Stock', 'stock', 'fas fa-truck-loading', 1, 'stock');
+(23, 3, 'Stock', 'stock', 'fas fa-truck-loading', 1, 'stock'),
+(24, 2, 'Manage Company', 'company', 'far fa-building', 1, 'company');
 
 -- --------------------------------------------------------
 
@@ -445,6 +592,12 @@ ALTER TABLE `banks`
   ADD PRIMARY KEY (`customer_id`);
 
 --
+-- Indexes for table `company`
+--
+ALTER TABLE `company`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `customers`
 --
 ALTER TABLE `customers`
@@ -485,6 +638,36 @@ ALTER TABLE `product_categories`
 --
 ALTER TABLE `product_stocks`
   ADD PRIMARY KEY (`supplier_id`);
+
+--
+-- Indexes for table `purchase_debts`
+--
+ALTER TABLE `purchase_debts`
+  ADD PRIMARY KEY (`purchase_debt_id`);
+
+--
+-- Indexes for table `purchase_orders`
+--
+ALTER TABLE `purchase_orders`
+  ADD PRIMARY KEY (`order_id`);
+
+--
+-- Indexes for table `sales_account_receivables`
+--
+ALTER TABLE `sales_account_receivables`
+  ADD PRIMARY KEY (`sales_ar_id`);
+
+--
+-- Indexes for table `sales_orders`
+--
+ALTER TABLE `sales_orders`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `sales_order_details`
+--
+ALTER TABLE `sales_order_details`
+  ADD PRIMARY KEY (`so_detail_id`);
 
 --
 -- Indexes for table `suppliers`
@@ -557,6 +740,12 @@ ALTER TABLE `_product_details`
 --
 
 --
+-- AUTO_INCREMENT for table `company`
+--
+ALTER TABLE `company`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
@@ -567,6 +756,12 @@ ALTER TABLE `orders`
 --
 ALTER TABLE `order_items`
   MODIFY `item_id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `sales_order_details`
+--
+ALTER TABLE `sales_order_details`
+  MODIFY `so_detail_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `users`
@@ -602,7 +797,7 @@ ALTER TABLE `user_status`
 -- AUTO_INCREMENT for table `user_sub_menu`
 --
 ALTER TABLE `user_sub_menu`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 
 --
 -- AUTO_INCREMENT for table `user_token`

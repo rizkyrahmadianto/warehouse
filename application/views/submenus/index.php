@@ -56,7 +56,7 @@
 							<th>No</th>
 							<th>Title</th>
 							<th>Menu</th>
-							<th>Url</th>
+							<!-- <th>Url</th> -->
 							<th>Icon</th>
 							<th>Active</th>
 							<th>Level</th>
@@ -71,7 +71,7 @@
 									<td><?php echo ++$start; ?></td>
 									<td><?php echo $sm['title']; ?></td>
 									<td><?php echo $sm['menu']; ?></td>
-									<td><?php echo $sm['url']; ?></td>
+									<!-- <td><?php echo $sm['url']; ?></td> -->
 									<td><?php echo $sm['icon']; ?></td>
 									<td>
 										<?php

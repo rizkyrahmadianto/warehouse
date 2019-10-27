@@ -199,7 +199,7 @@ class Product extends CI_Controller
       $this->load->view('products/edit-product', $info);
       $this->load->view('templates/footer');
     } else {
-      $this->Product_model->update($file);
+      $this->Product_model->update($file, $this->input->post('id'));
       $this->session->set_flashdata('success', 'Data product has been updated !');
       redirect('product', 'refresh');
     }

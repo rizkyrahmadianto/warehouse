@@ -1,11 +1,11 @@
 // https://www.malasngoding.com/membuat-format-rupiah-dengan-javascript/
-var angka = document.getElementById('price');
-angka.addEventListener('keyup', function (e) {
+var angka = document.getElementById("price");
+
+angka.addEventListener("keyup", function (e) {
 	angka.value = formatUang(this.value, 'Rp. ');
 });
 
 function formatUang(nilai, format) {
-
 	var string_angka = nilai.replace(/[^,\d]/g, '').toString(),
 		split = string_angka.split(','),
 		sisa = split[0].length % 3,

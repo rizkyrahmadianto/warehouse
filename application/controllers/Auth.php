@@ -26,19 +26,16 @@ class Auth extends CI_Controller
 
 					$this->session->set_userdata($file);
 
-					$cookie = array(
-						'name' => 'Warehouse',
-						'value' => $this->session->set_userdata($file),
-						'expire' => 604800,
-						'domain' => base_url(),
-						'path' => '/',
-						'prefix' => 'mywarehouse_',
-						'secure' => TRUE
-					);
+					// $cookie = array(
+					// 	'name' => 'Warehouse',
+					// 	'value' => $email,
+					// 	'expire' => 604800,
+					// 	'secure' => FALSE
+					// );
 
-					if ($this->input->post("customCheck")) {
-						$this->input->set_cookie($cookie);
-					}
+					// if ($this->input->post("customCheck")) {
+					// 	$this->input->set_cookie($cookie);
+					// }
 
 					// ini didapatkan dari setting config di file config.php`
 					/* if ($this->input->post("customCheck")) {
@@ -306,14 +303,13 @@ class Auth extends CI_Controller
 		$this->session->unset_userdata('email');
 		$this->session->unset_userdata('role_id');
 
-		$cookie = array(
-			'name' => 'Warehouse',
-			'domain' => 'http://localhost/warehouse/',
-			'path' => '/',
-			'prefix' => 'mywarehouse_'
-		);
+		// $cookie = array(
+		// 	'name' => 'Warehouse',
+		// 	'value' => '',
+		// 	'expire' => 0,
+		// );
 
-		delete_cookie($cookie);
+		// delete_cookie($cookie);
 
 		$this->session->set_flashdata('success', 'You have been logout !');
 		redirect('auth', 'refresh');

@@ -34,7 +34,7 @@
         <div class="form-group">
           <label for="">Brand Name</label>
           <input type="hidden" class="form-control" readonly value="<?= $id['brand_id'] ?>" name="id">
-          <input type="text" class="form-control" id="name" name="name" placeholder="Enter Brand's Name.." value="<?= $id['name']; ?>">
+          <input type="text" class="form-control" id="name" name="name" placeholder="Enter Brand's Name.." value="<?= $id['brand_name']; ?>">
           <small class="form-text text-danger"><?= form_error('name'); ?></small>
         </div>
 

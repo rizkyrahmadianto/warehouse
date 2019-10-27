@@ -1,6 +1,6 @@
 <?php foreach ($product as $p) : ?>
-  <div class="modal fade" id="detail-modal<?= $p['product_id'] ?>" tabindex="-1" role="dialog" aria-hidden="true">
-    <div class="modal-dialog" role="document">
+  <div class="modal fade bd-example-modal-lg" id="detail-modal<?= $p['product_id'] ?>" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
       <div class="modal-content">
 
         <div class="modal-header">
@@ -62,6 +62,16 @@
           <div class="form-group">
             <label for="">Product Price</label>
             <input type="text" class="form-control" readonly value="<?= "Rp. " . number_format($p['price'], 0, ',', '.'); ?>">
+          </div>
+
+          <div class="form-group">
+            <label for="">Quantity</label>
+            <input type="text" class="form-control" readonly value="<?= $p['qty']; ?>">
+          </div>
+
+          <div class="form-group">
+            <label for="">Availability</label>
+            <input type="text" class="form-control" readonly value="<?= ($p['availability'] == 1) ? "Stock Available" : "Out of Stock"; ?>">
           </div>
         </div>
 
