@@ -106,6 +106,18 @@
         });
       </script>
 
+
+
+      <!-- <script>
+        $(document).ready(function() {
+          var pickDate = $(".datepicker").datepicker({
+            format: 'dd-mm-yyyy',
+            autoclose: true,
+            todayHighlight: true
+          });
+        });
+      </script> -->
+
       <script src="<?php echo base_url(); ?>assets/js/format-money.js"></script>
       <!-- <script src="<?php echo base_url(); ?>assets/js/simple.money.format.js"></script> -->
       <!-- <script src="<?php echo base_url(); ?>assets/js/accounting.min.js"></script> -->

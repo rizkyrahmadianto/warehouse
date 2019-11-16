@@ -88,7 +88,7 @@ class Sales extends CI_Controller
 
   public function newOrder()
   {
-    $info['title'] = "Add New Order";
+    $info['title'] = "Add New Sales";
     $info['user'] = $this->Auth_model->getUserSession();
     $info['product'] = $this->Product_model->getProduct();
 

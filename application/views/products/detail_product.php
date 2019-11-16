@@ -31,6 +31,11 @@
             <input type="text" class="form-control" readonly value="<?= $p['category_name']; ?>">
           </div>
 
+          <div class="form-group">
+            <label for="">Supplier</label>
+            <input type="text" class="form-control" readonly value="<?= $p['supplier_name']; ?>">
+          </div>
+
           <hr>
 
           <!-- <div class="form-row">

@@ -32,11 +32,13 @@ class Product extends CI_Controller
     $this->db->from('products');
     $this->db->join('product_categories', 'product_categories.category_id = products.category_id');
     $this->db->join('product_brands', 'product_brands.brand_id = products.brand_id');
+    $this->db->join('suppliers', 'suppliers.supplier_id = products.supplier_id');
 
     $this->db->like('product_id', $info['keyword']);
     $this->db->or_like('product_name', $info['keyword']);
     $this->db->or_like('brand_name', $info['keyword']);
     $this->db->or_like('category_name', $info['keyword']);
+    $this->db->or_like('supplier_name', $info['keyword']);
     // $this->db->from('products');
 
     // PAGINATION
@@ -75,8 +77,8 @@ class Product extends CI_Controller
     // GENERATE PAGE
     $this->pagination->initialize($config);
 
-    $info['start']   = $this->uri->segment(3);
-    $info['product']    = $this->Product_model->getAllProduct($config['per_page'], $info['start'], $info['keyword']);
+    $info['start'] = $this->uri->segment(3);
+    $info['product'] = $this->Product_model->getAllProduct($config['per_page'], $info['start'], $info['keyword']);
 
     $info['pagination'] = $this->pagination->create_links();
 
@@ -114,6 +116,7 @@ class Product extends CI_Controller
     $info['user'] = $this->Auth_model->getUserSession();
     $info['brand'] = $this->Brand_model->getBrand();
     $info['category'] = $this->Category_model->getCategory();
+    $info['supplier']   = $this->Supplier_model->getSupplier();
     // CUSTOM GENERATE ID CUSTOMER
     $id = "PROD" . "-";
     $customid = $id . date('His') . date("m") . date('y');
@@ -122,6 +125,7 @@ class Product extends CI_Controller
     $this->form_validation->set_rules('product_name', 'product name', 'trim|required|min_length[5]');
     $this->form_validation->set_rules('brand_id', 'brand', 'trim|required');
     $this->form_validation->set_rules('category_id', 'category', 'trim|required');
+    $this->form_validation->set_rules('supplier_id', 'supplier', 'trim|required');
     $this->form_validation->set_rules('description', 'description product', 'trim|required|min_length[10]');
     $this->form_validation->set_rules('price', 'product price', 'trim|required');
 
@@ -132,6 +136,7 @@ class Product extends CI_Controller
       'product_name' => $this->security->xss_clean(html_escape($this->input->post('product_name', true))),
       'brand_id' => $this->security->xss_clean(html_escape($this->input->post('brand_id', true))),
       'category_id' => $this->security->xss_clean(html_escape($this->input->post('category_id', true))),
+      'supplier_id' => $this->security->xss_clean(html_escape($this->input->post('supplier_id', true))),
       'image' => $this->_uploadImage(),
       'description' => $this->security->xss_clean(html_escape($this->input->post('description', true))),
       'price' => $convertCurrency
@@ -156,12 +161,15 @@ class Product extends CI_Controller
     $info['user']       = $this->Auth_model->getUserSession();
     $info['brand']      = $this->Brand_model->getBrand();
     $info['category']   = $this->Category_model->getCategory();
+    $info['supplier']   = $this->Supplier_model->getSupplier();
+
     $info['id']         = $this->Product_model->getProductById($id);
     date_default_timezone_set('Asia/Jakarta');
 
     $this->form_validation->set_rules('product_name', 'product name', 'trim|required|min_length[5]');
     $this->form_validation->set_rules('brand_id', 'brand', 'trim|required');
     $this->form_validation->set_rules('category_id', 'category', 'trim|required');
+    $this->form_validation->set_rules('supplier_id', 'supplier', 'trim|required');
     $this->form_validation->set_rules('description', 'description product', 'trim|required|min_length[10]');
     $this->form_validation->set_rules('price', 'product price', 'trim|required');
 
@@ -173,6 +181,7 @@ class Product extends CI_Controller
         'product_name' => $this->security->xss_clean(html_escape($this->input->post('product_name', true))),
         'brand_id' => $this->security->xss_clean(html_escape($this->input->post('brand_id', true))),
         'category_id' => $this->security->xss_clean(html_escape($this->input->post('category_id', true))),
+        'supplier_id' => $this->security->xss_clean(html_escape($this->input->post('supplier_id', true))),
         'description' => $this->security->xss_clean(html_escape($this->input->post('description', true))),
         'price' => $convertCurrency,
         'updated_at' => date('Y-m-d H:i:s')
@@ -182,6 +191,7 @@ class Product extends CI_Controller
         'product_name' => $this->security->xss_clean(html_escape($this->input->post('product_name', true))),
         'brand_id' => $this->security->xss_clean(html_escape($this->input->post('brand_id', true))),
         'category_id' => $this->security->xss_clean(html_escape($this->input->post('category_id', true))),
+        'supplier_id' => $this->security->xss_clean(html_escape($this->input->post('supplier_id', true))),
         'image' => $this->_uploadImage(),
         'description' => $this->security->xss_clean(html_escape($this->input->post('description', true))),
         'price' => $convertCurrency,

@@ -88,7 +88,7 @@ class Category extends CI_Controller
     $id = "CAT" . "-";
     $customid = $id . date('His') . date("m") . date('y');
 
-    $this->form_validation->set_rules('name', 'category name', 'trim|required|min_length[5]|is_unique[product_categories.name]', [
+    $this->form_validation->set_rules('name', 'category name', 'trim|required|min_length[5]|is_unique[product_categories.category_name]', [
       'is_unique' => 'category has been registered, please use another category.'
     ]);
 
@@ -116,7 +116,7 @@ class Category extends CI_Controller
     $info['user']      = $this->Auth_model->getUserSession();
     $info['id']        = $this->Category_model->getCategoryById($id);
 
-    $this->form_validation->set_rules('name', 'customer name', 'trim|required|min_length[5]|is_unique[product_categories.name]', [
+    $this->form_validation->set_rules('name', 'customer name', 'trim|required|min_length[5]|is_unique[product_categories.category_name]', [
       'is_unique' => 'category has been registered, please use another category.'
     ]);
 

@@ -54,9 +54,9 @@
           <table class="table table-bordered" id="product_info_table" width="100%" cellspacing="0">
             <thead>
               <tr>
-                <th style="width:50%">Product</th>
+                <th style="width:40%">Product</th>
                 <th style="width:10%">Quantity</th>
-                <th style="width:10%">Unit Price</th>
+                <th style="width:20%">Unit Price (Rp.)</th>
                 <th style="width:20%">Amount</th>
                 <th style="width:10%">
                   <button type="button" id="add_row" class="btn btn-primary btn-sm"> <i class="fas fa-plus"></i></i> </button>
@@ -81,14 +81,24 @@
                       </select>
                     </td>
                     <td>
-                      <input type="number" name="qty[]" id="qty_<?php echo $i; ?>" class="form-control" required onkeyup="getTotal(<?php echo $i; ?>)" value="<?php echo $val['qty']; ?>">
+                      <input type="text" name="qty[]" id="qty_<?php echo $i; ?>" class="form-control" required onkeyup="getTotal(<?php echo $i; ?>); numberFormat(this)" value="<?php echo $val['qty']; ?>">
                     </td>
                     <td>
-                      <input type="text" name="price[]" id="price_<?php echo $i; ?>" class="form-control" disabled autocomplete="off" value="<?php echo $val['unit_price'] ?>">
+                      <div class="input-group">
+                        <div class="input-group-prepend">
+                          <span class="input-group-text"><b>Rp</b></span>
+                        </div>
+                        <input type="text" name="price[]" id="price_<?php echo $i; ?>" class="form-control" disabled autocomplete="off" value="<?php echo $val['unit_price'] ?>">
+                      </div>
                       <input type="hidden" name="price_value[]" id="price_value_<?php echo $i; ?>" class="form-control" autocomplete="off" value="<?php echo $val['unit_price'] ?>">
                     </td>
                     <td>
-                      <input type="text" name="amount[]" id="amount_<?php echo $i; ?>" class="form-control" disabled autocomplete="off" value="<?php echo $val['amount'] ?>">
+                      <div class="input-group">
+                        <div class="input-group-prepend">
+                          <span class="input-group-text"><b>Rp</b></span>
+                        </div>
+                        <input type="text" name="amount[]" id="amount_<?php echo $i; ?>" class="form-control" disabled autocomplete="off" value="<?php echo $val['amount'] ?>">
+                      </div>
                       <input type="hidden" name="amount_value[]" id="amount_value_<?php echo $i; ?>" class="form-control" autocomplete="off" value="<?php echo $val['amount'] ?>">
                     </td>
                     <td>
@@ -102,33 +112,58 @@
           </table>
         </div>
 
-        <div class="col-md-6 col-xs-12">
+        <div class="col-md-3 col-xs-12">
           <div class="form-group">
             <label for="gross_amount">Gross Amount</label>
-            <input type="text" class="form-control" id="gross_amount" name="gross_amount" disabled autocomplete="off" value="<?php echo $order_data['order']['gross_amount'] ?>">
+            <div class="input-group">
+              <div class="input-group-prepend">
+                <span class="input-group-text"><b>Rp</b></span>
+              </div>
+              <input type="text" class="form-control" id="gross_amount" name="gross_amount" disabled autocomplete="off" value="<?php echo $order_data['order']['gross_amount'] ?>">
+            </div>
             <input type="hidden" class="form-control" id="gross_amount_value" name="gross_amount_value" autocomplete="off" value="<?php echo $order_data['order']['gross_amount'] ?>">
           </div>
           <?php if ($is_service_enabled == true) : ?>
             <div class="form-group">
-              <label for="service_charge">S-Charge <?php echo $company_data['service_charge_value'] ?> %</label>
-              <input type="text" class="form-control" id="service_charge" name="service_charge" disabled autocomplete="off" value="<?php echo $order_data['order']['service_charge'] ?>">
+              <label for="service_charge">Service Charge <?php echo $company_data['service_charge_value'] ?> %</label>
+              <div class="input-group">
+                <div class="input-group-prepend">
+                  <span class="input-group-text"><b>Rp</b></span>
+                </div>
+                <input type="text" class="form-control" id="service_charge" name="service_charge" disabled autocomplete="off" value="<?php echo $order_data['order']['service_charge'] ?>">
+              </div>
               <input type="hidden" class="form-control" id="service_charge_value" name="service_charge_value" autocomplete="off" value="<?php echo $order_data['order']['service_charge'] ?>">
             </div>
           <?php endif; ?>
           <?php if ($is_vat_enabled == true) : ?>
             <div class="form-group">
-              <label for="vat_charge">Vat <?php echo $company_data['vat_charge_value'] ?> %</label> <!-- Value Added Tax -->
-              <input type="text" class="form-control" id="vat_charge" name="vat_charge" disabled autocomplete="off" value="<?php echo $order_data['order']['vat_charge'] ?>">
+              <label for="vat_charge">Value Added Tax <?php echo $company_data['vat_charge_value'] ?> %</label> <!-- Value Added Tax -->
+              <div class="input-group">
+                <div class="input-group-prepend">
+                  <span class="input-group-text"><b>Rp</b></span>
+                </div>
+                <input type="text" class="form-control" id="vat_charge" name="vat_charge" disabled autocomplete="off" value="<?php echo $order_data['order']['vat_charge'] ?>">
+              </div>
               <input type="hidden" class="form-control" id="vat_charge_value" name="vat_charge_value" autocomplete="off" value="<?php echo $order_data['order']['vat_charge'] ?>">
             </div>
           <?php endif; ?>
           <div class="form-group">
             <label for="discount">Discount %</label>
-            <input type="number" class="form-control" id="discount" name="discount" placeholder="Discount..." onkeyup="subAmount()" autocomplete="off" value="<?php echo $order_data['order']['discount'] ?>">
+            <div class="input-group">
+              <input type="text" class="form-control" id="discount" name="discount" placeholder="Discount..." onkeyup="subAmount(); numberFormat(this)" autocomplete="off" value="<?php echo $order_data['order']['discount'] ?>">
+              <div class="input-group-append">
+                <span class="input-group-text"><i class="fas fa-percentage"></i></span>
+              </div>
+            </div>
           </div>
           <div class="form-group">
             <label for="net_amount">Net Amount</label>
-            <input type="text" class="form-control" id="net_amount" name="net_amount" disabled autocomplete="off" value="<?php echo $order_data['order']['net_amount'] ?>">
+            <div class="input-group">
+              <div class="input-group-prepend">
+                <span class="input-group-text"><b>Rp</b></span>
+              </div>
+              <input type="text" class="form-control" id="net_amount" name="net_amount" disabled autocomplete="off" value="<?php echo $order_data['order']['net_amount'] ?>">
+            </div>
             <input type="hidden" class="form-control" id="net_amount_value" name="net_amount_value" autocomplete="off" value="<?php echo $order_data['order']['net_amount'] ?>">
           </div>
         </div>
@@ -178,8 +213,8 @@
           html += '</select>' +
             '</td>' +
             '<td><input type="number" name="qty[]" id="qty_' + row_id + '" class="form-control" onkeyup="getTotal(' + row_id + ')"></td>' +
-            '<td><input type="text" name="price[]" id="price_' + row_id + '" class="form-control" disabled><input type="hidden" name="price_value[]" id="price_value_' + row_id + '" class="form-control"></td>' +
-            '<td><input type="text" name="amount[]" id="amount_' + row_id + '" class="form-control" disabled><input type="hidden" name="amount_value[]" id="amount_value_' + row_id + '" class="form-control"></td>' +
+            '<td><div class="input-group"><div class="input-group-prepend"><span class="input-group-text"><b>Rp</b></span></div><input type="text" name="price[]" id="price_' + row_id + '" class="form-control" disabled></div><input type="hidden" name="price_value[]" id="price_value_' + row_id + '" class="form-control"></td>' +
+            '<td><div class="input-group"><div class="input-group-prepend"><span class="input-group-text"><b>Rp</b></span></div><input type="text" name="amount[]" id="amount_' + row_id + '" class="form-control" disabled></div><input type="hidden" name="amount_value[]" id="amount_value_' + row_id + '" class="form-control"></td>' +
             '<td><button type="button" class="btn btn-danger btn-sm" onclick="removeRow(\'' + row_id + '\')"><i class="fas fa-times"></i></button></td>' +
             '</tr>';
 
@@ -199,9 +234,14 @@
 
   }); // /document
 
+  function numberFormat(element) {
+    element.value = element.value.replace(/[^0-9]+/g, "");
+  }
+
   function getTotal(row = null) {
+    var qty = Number($("#qty_" + row).val());
     if (row) {
-      var total = Number($("#price_value_" + row).val()) * Number($("#qty_" + row).val());
+      var total = Number($("#price_value_" + row).val()) * qty;
       total = total.toFixed();
       $("#amount_" + row).val(total);
       $("#amount_value_" + row).val(total);
@@ -290,9 +330,9 @@
     var totalAmount = (Number(totalSubAmount) + Number(vat) + Number(service));
     totalAmount = totalAmount.toFixed();
 
-    var discount = $("#discount").val();
+    var discount = Number($("#discount").val());
     if (discount) {
-      var grandTotal = Number(totalAmount) - Number(discount);
+      var grandTotal = Number(totalAmount) - discount;
       grandTotal = grandTotal.toFixed();
       $("#net_amount").val(grandTotal);
       $("#net_amount_value").val(grandTotal);

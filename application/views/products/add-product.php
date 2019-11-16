@@ -61,6 +61,18 @@
             <small class="form-text text-danger"><?= form_error('category_id'); ?></small>
           </div>
           <div class="form-group">
+            <label for="">Supplier Name</label>
+            <select class="form-control" name="supplier_id" id="supplier_id">
+              <option value="">Choose Supplier...</option>
+
+              <?php foreach ($supplier as $s) : ?>
+                <option value="<?php echo $s['supplier_id'] ?>"><?php echo $s['supplier_name'] ?></option>
+              <?php endforeach; ?>
+
+            </select>
+            <small class="form-text text-danger"><?= form_error('supplier_id'); ?></small>
+          </div>
+          <div class="form-group">
             <label for="">Product Image</label>
             <!-- <input type="file" class="form-control-file" name="image[]" id="image[]" multiple> -->
             <input type="file" class="form-control-file" name="image" id="image">
@@ -73,7 +85,7 @@
           </div>
           <div class="form-group">
             <label for="">Product Price</label>
-            <input type="text" class="form-control" id="price" name="price" placeholder="Product price..." value="<?php echo set_value('price'); ?>">
+            <input type="text" class="form-control price" id="price" name="price" placeholder="Product price..." value="<?php echo set_value('price'); ?>">
             <small class="form-text text-danger"><?= form_error('price'); ?></small>
           </div>
           <!-- /.box-body -->

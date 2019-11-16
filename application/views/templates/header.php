@@ -9,17 +9,18 @@
   <meta name="description" content="">
   <meta name="author" content="">
 
-  <title>Warehouse | <?php echo $title; ?></title>
+  <title><?php echo $title; ?> - Warehouse</title>
 
   <link rel="shortcut icon" type="image/png" href="<?= base_url(); ?>assets/img/logo/warehouse.png">
   <!-- Custom fonts for this template-->
   <link href="<?php echo base_url(); ?>assets/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
   <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
 
-
   <!-- Custom styles for this template-->
   <link href="<?php echo base_url(); ?>assets/css/sb-admin-2.min.css" rel="stylesheet">
   <link href="<?php echo base_url(); ?>assets/css/select2.min.css" rel="stylesheet">
+  <link href="<?php echo base_url(); ?>assets/css/bootstrap-datepicker.min.css" rel="stylesheet">
+
 
   <!-- Bootstrap core JavaScript-->
   <script src="<?php echo base_url(); ?>assets/vendor/jquery/jquery.min.js"></script>
@@ -33,6 +34,8 @@
 
   <!-- Custom Script -->
   <script src="<?php echo base_url(); ?>assets/sweet_alert/dist/sweetalert2.all.min.js"></script>
+  <script src="<?php echo base_url(); ?>assets/js/bootstrap-datepicker.min.js"></script>
+
 </head>
 
 <body id="page-top">

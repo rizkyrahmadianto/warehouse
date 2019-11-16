@@ -12,15 +12,17 @@ class Product_model extends CI_Model
     $this->db->from('products');
     $this->db->join('product_categories', 'product_categories.category_id = products.category_id');
     $this->db->join('product_brands', 'product_brands.brand_id = products.brand_id');
+    $this->db->join('suppliers', 'suppliers.supplier_id = products.supplier_id');
 
     if ($keyword) {
       $this->db->like('product_id', $keyword);
       $this->db->or_like('product_name', $keyword);
       $this->db->or_like('brand_name', $keyword);
       $this->db->or_like('category_name', $keyword);
+      $this->db->or_like('supplier_name', $keyword);
     }
 
-    $this->db->order_by('created_at', 'DESC');
+    $this->db->order_by('product_name', 'DESC');
 
     $this->db->limit($limit, $offset);
 
