@@ -37,7 +37,7 @@
             <small class="form-text text-danger"><?= form_error('product_name'); ?></small>
           </div>
           <div class="form-group">
-            <label for="">Brand Name</label>
+            <label for="">Brand</label>
             <select class="form-control" name="brand_id" id="brand_id">
               <option value="">Choose Brand...</option>
 
@@ -49,7 +49,7 @@
             <small class="form-text text-danger"><?= form_error('brand_id'); ?></small>
           </div>
           <div class="form-group">
-            <label for="">Category Name</label>
+            <label for="">Category</label>
             <select class="form-control" name="category_id" id="category_id">
               <option value="">Choose Category...</option>
 
@@ -61,7 +61,7 @@
             <small class="form-text text-danger"><?= form_error('category_id'); ?></small>
           </div>
           <div class="form-group">
-            <label for="">Supplier Name</label>
+            <label for="">Supplier</label>
             <select class="form-control" name="supplier_id" id="supplier_id">
               <option value="">Choose Supplier...</option>
 

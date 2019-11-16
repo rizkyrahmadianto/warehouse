@@ -38,7 +38,7 @@
             <small class="form-text text-danger"><?= form_error('product_name'); ?></small>
           </div>
           <div class="form-group">
-            <label for="">Brand Name</label>
+            <label for="">Brand</label>
             <select class="form-control" name="brand_id" id="brand_id">
               <option value="">Choose Brand...</option>
 
@@ -54,7 +54,7 @@
             <small class="form-text text-danger"><?= form_error('brand_id'); ?></small>
           </div>
           <div class="form-group">
-            <label for="">Category Name</label>
+            <label for="">Category</label>
             <select class="form-control" name="category_id" id="category_id">
               <option value="">Choose Category...</option>
 
@@ -68,6 +68,22 @@
 
             </select>
             <small class="form-text text-danger"><?= form_error('category_id'); ?></small>
+          </div>
+          <div class="form-group">
+            <label for="supplier_id">Supplier</label>
+            <select class="form-control" name="supplier_id" id="supplier_id">
+              <option value="">Choose Supplier...</option>
+
+              <?php foreach ($supplier as $s) : ?>
+                <?php if ($s['supplier_id'] == $id['supplier_id']) : ?>
+                  <option value="<?php echo $s['supplier_id'] ?>" selected><?php echo $s['supplier_name'] ?></option>
+                <?php else : ?>
+                  <option value="<?php echo $s['supplier_id'] ?>"><?php echo $s['supplier_name'] ?></option>
+                <?php endif; ?>
+              <?php endforeach; ?>
+
+            </select>
+            <small class="form-text text-danger"><?= form_error('supplier_id'); ?></small>
           </div>
           <div class="form-group">
             <label for="">Product Image</label>
