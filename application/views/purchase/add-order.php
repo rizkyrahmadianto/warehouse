@@ -117,6 +117,16 @@
 
         <div class="col-md-3 col-xs-12">
           <div class="form-group">
+            <label for="gross_amount">Gross Amount</label>
+            <div class="input-group">
+              <div class="input-group-prepend">
+                <span class="input-group-text"><b>Rp</b></span>
+              </div>
+              <input type="text" class="form-control" id="gross_amount" name="gross_amount" disabled autocomplete="off">
+            </div>
+            <input type="hidden" class="form-control" id="gross_amount_value" name="gross_amount_value" autocomplete="off">
+          </div>
+          <div class="form-group">
             <label for="ship_amount">Ship Amount</label>
             <div class="input-group">
               <div class="input-group-prepend">
@@ -318,6 +328,8 @@
     } // /for
 
     // totalSubAmount = totalSubAmount.toFixed();
+    $("#gross_amount").val(totalSubAmount);
+    $("#gross_amount_value").val(totalSubAmount);
 
     if (ship_amount) {
       grandTotalSubAmount = totalSubAmount + ship_amount;

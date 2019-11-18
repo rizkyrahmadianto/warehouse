@@ -129,12 +129,13 @@ class Purchase extends CI_Controller
       'id' => $customid,
       'supplier_id' => $this->input->post('supplier', true),
       'order_date' => $this->input->post('order_date', true),
+      'gross_amount' => $this->input->post('gross_amount_value', true),
       'ship_amount' => $this->input->post('ship_amount', true),
       'tax_amount' => $this->input->post('tax_charge', true),
       'discount' => $this->input->post('discount', true),
       'net_amount' => $this->input->post('net_amount_value', true),
       'paid_status' => 2,
-      'user_id' => /* $this->session->userdata('id') */ 1
+      'user_create' => $this->session->userdata('email')
     ];
 
     if ($this->form_validation->run() == FALSE) {
@@ -146,7 +147,7 @@ class Purchase extends CI_Controller
     } else {
       $this->Purchase_model->insertOrders($file);
 
-      // Store to sales_order_details
+      // Store to purchase_order_details
       $count_product = count($this->input->post('product'));
       for ($i = 0; $i < $count_product; $i++) {
         $products = array(
@@ -176,6 +177,335 @@ class Purchase extends CI_Controller
       redirect('purchase', 'refresh');
     }
   }
+
+  public function editOrder($id)
+  {
+    $info['title'] = 'Edit Purchase Order';
+    $info['user'] = $this->Auth_model->getUserSession();
+
+    // to get all data order by ID
+    $result = array();
+    $orders_data = $this->Purchase_model->getPurchaseOrdersById($id);
+    $result['order'] = $orders_data;
+    $orders_item = $this->Purchase_model->getPurchaseOrderDetailsById($orders_data['id']);
+
+    foreach ($orders_item as $key => $val) {
+      $result['order_detail'][] = $val;
+    }
+
+    $info['order_data'] = $result;
+
+    date_default_timezone_set('Asia/Jakarta');
+
+    $info['supplier'] = $this->Supplier_model->getSupplier();
+    $info['product'] = $this->Product_model->getProduct();
+    $info['detailsupplier'] = $this->Purchase_model->getPurchaseOrdersById($id);
+
+    $this->form_validation->set_rules('supplier', 'supplier', 'required');
+    $this->form_validation->set_rules('order_date', 'order date', 'required');
+    // $this->form_validation->set_rules('bankname', 'bank name', 'trim|required|min_length[3]');
+    // $this->form_validation->set_rules('banknumber', 'bank account number', 'trim|required|min_length[5]|numeric');
+
+    $this->form_validation->set_rules('product[]', 'product', 'trim|required');
+
+
+    $file = [
+      'supplier_id' => $this->input->post('supplier', true),
+      'order_date' => $this->input->post('order_date', true),
+      'gross_amount' => $this->input->post('gross_amount_value', true),
+      'ship_amount' => $this->input->post('ship_amount', true),
+      'tax_amount' => $this->input->post('tax_charge', true),
+      'discount' => $this->input->post('discount', true),
+      'net_amount' => $this->input->post('net_amount_value', true),
+      'paid_status' => 2,
+      'user_update' => $this->session->userdata('email'),
+      'updated_at' => date('Y-m-d H:i:s')
+    ];
+
+    if ($this->form_validation->run() == false) {
+      $this->load->view('templates/header', $info);
+      $this->load->view('templates/sidebar', $info);
+      $this->load->view('templates/topbar', $info);
+      $this->load->view('purchase/edit-order', $info);
+      $this->load->view('templates/footer');
+    } else {
+      $this->Purchase_model->update($id, $file);
+
+      // Update to purchase_order_details
+      $get_order_details = $this->Purchase_model->getPurchaseOrderDetailsById($id);
+      foreach ($get_order_details as $v) {
+        $product_id = $v['product_id'];
+        $qty = $v['qty'];
+
+        // get the product
+        $product_data = $this->Product_model->getProductById($product_id);
+        $update_qty = $qty - $product_data['qty'];
+        $update_product_data = array('qty' => $update_qty);
+
+        // update product quantity
+        $this->Product_model->update($update_product_data, $product_id);
+      }
+
+      // remove the order details
+      $this->db->where('order_id', $id);
+      $this->db->delete('purchase_order_details');
+
+      // decrease the product quantity
+      $count_product = count($this->input->post('product'));
+      for ($i = 0; $i < $count_product; $i++) {
+        $products = array(
+          'order_id' => $id,
+          'product_id' => $this->input->post('product')[$i],
+          'unit_price' => $this->input->post('price')[$i],
+          'qty' => $this->input->post('qty')[$i],
+          'amount' => $this->input->post('amount_value')[$i]
+        );
+
+        $this->Purchase_model->insertOrderDetails($products);
+
+        // Decrease stock from table product 
+        $product_data = $this->Product_model->getProductById($this->input->post('product')[$i]);
+        $qty = $product_data['qty'] + $this->input->post('qty')[$i];
+        $price = $this->input->post('price')[$i];
+
+        $update_product = array(
+          'qty' => $qty,
+          'price' => $price
+        );
+        $this->Product_model->update($update_product, $this->input->post('product')[$i]);
+      }
+      // return true;
+
+      $this->session->set_flashdata('success', 'Data order has been updated !');
+      redirect('purchase', 'refresh');
+    }
+  }
+
+  public function printOrder($id)
+  {
+    $title = 'Print Purchase Order ' . $id;
+    $user = $this->Auth_model->getUserSession();
+
+    $order_data = $this->Purchase_model->getPurchaseOrdersById($id);
+    $order_detail = $this->Purchase_model->getPurchaseOrderDetailsById($id);
+
+    $company_info = $this->Company_model->getCompanyById(1);
+    $supplier_info = $this->Purchase_model->getSupplierInfo($id);
+
+    $order_date = date('d M Y', strtotime($order_data['order_date']));
+
+    // Checking for ship amount exist
+    if ($order_data['ship_amount'] > 0) {
+      $ship_amount = 'Rp. ' . number_format($order_data['ship_amount'], 0, ',', '.');
+    } else {
+      $ship_amount = '-';
+    }
+
+    // Checking for tax amount exist 
+    if ($order_data['tax_amount'] > 0) {
+      $tax_amount = $order_data['tax_amount'] . '%';
+    } else {
+      $tax_amount = '-';
+    }
+
+    // Checking for discount exist order_data['discount']
+    if ($order_data['discount']) {
+      $discount  = $order_data['discount'] . '%';
+    } else {
+      $discount = '-';
+    }
+
+    $html = '
+    <!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>Warehouse | ' . $title . '</title>
+
+  <link rel="shortcut icon" type="image/png" href="' . base_url() . 'assets/img/logo/warehouse.png">
+  <!-- Custom fonts for this template-->
+  <link href="' . base_url() . 'assets/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+
+
+  <!-- Custom styles for this template-->
+  <link href="' . base_url() . 'assets/css/sb-admin-2.min.css" rel="stylesheet">
+  <link href="' . base_url() . 'assets/css/select2.min.css" rel="stylesheet">
+
+  <!-- Bootstrap core JavaScript-->
+  <script src="' . base_url() . 'assets/vendor/jquery/jquery.min.js"></script>
+  <script src="' . base_url() . 'assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+  <!-- Core plugin JavaScript-->
+  <script src="' . base_url() . 'assets/vendor/jquery-easing/jquery.easing.min.js"></script>
+
+  <!-- Custom scripts for all pages-->
+  <script src="' . base_url() . 'assets/js/sb-admin-2.min.js"></script>
+
+  <!-- Custom Script -->
+  <script src="' . base_url() . 'assets/sweet_alert/dist/sweetalert2.all.min.js"></script>
+</head>
+
+<body onload="window.print();">
+  <div class="container">
+    <div class="card">
+      <div class="card-header">
+        Invoice
+        <strong>' . $order_date . '</strong>
+        <!-- <span class="float-right"> <strong>Status:</strong> -</span> -->
+        <span class="float-right"> <strong>BILL ID:</strong> ' . $order_data['id'] . '</span>
+      </div>
+      <div class="card-body">
+        <div class="row mb-4">
+          <div class="col-sm-6">
+            <h6 class="mb-3">From:</h6>
+            <div>
+              <strong>' . $supplier_info['supplier_name'] . '</strong>
+            </div>
+            <div>' . $supplier_info['supplier_address'] . '</div>
+            <div>' . $supplier_info['supplier_phone'] . '</div>
+          </div>
+
+          <div class="col-sm-6">
+            <h6 class="mb-3">To:</h6>
+            <div>
+              <strong>' . $company_info['company_name'] . '</strong>
+            </div>
+            <div>' . $company_info['address'] . '</div>
+            <div>' . $company_info['phone'] . '</div>
+          </div>
+
+
+
+        </div>
+
+        <div class="table-responsive-sm">
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th>Product Name</th>
+                <th>Price</th>
+                <th>Quantity</th>
+                <th>Amount</th>
+              </tr>
+            </thead>
+            <tbody>
+    ';
+    foreach ($order_detail as $key => $val) {
+      $product_data = $this->Product_model->getProductById($val['product_id']);
+
+      $html .= '
+      <tr>
+        <td>' . $product_data['product_name'] . '</td>
+        <td>Rp. ' . number_format($val['unit_price'], 0, ',', '.') . '</td>
+        <td>' . $val['qty'] . '</td>
+        <td>Rp. ' . number_format($val['amount'], 0, ',', '.') . '</td>
+      </tr>
+      ';
+    }
+
+    $html .= '
+    </tbody>
+    </table>
+  </div>
+  <div class="row">
+    <div class="col-lg-4 col-sm-5">
+
+    </div>
+
+    <div class="col-lg-4 col-sm-5 ml-auto">
+      <table class="table table-clear">
+        <tbody>
+          <tr>
+            <td class="left">
+              <strong>Gross Amount:</strong>
+            </td>
+            <td class="right">Rp. 
+            ' . number_format($order_data['gross_amount'], 0, ',', '.') . '
+            </td>
+          </tr>
+
+          <tr>
+            <td class="left">
+              <strong>Ship Amount:</strong>
+            </td>
+            <td class="right"> 
+            ' . $ship_amount . '
+            </td>
+          </tr>
+
+          <tr>
+            <td class="left">
+              <strong>Tax Amount:</strong>
+            </td>
+            <td class="right">' . $tax_amount . '</td>
+          </tr>
+
+          <tr>
+            <td class="left">
+              <strong>Discount:</strong>
+            </td>
+            <td class="right">' . $discount . '</td>
+          </tr>
+
+          <tr>
+            <td class="left">
+              <strong>Net Amount:</strong>
+            </td>
+            <td class="right">
+              <strong>Rp. ' . number_format($order_data['net_amount'], 0, ',', '.') . '</strong>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+    </div>
+
+  </div>
+
+</div>
+</div>
+</div>
+</body>
+
+</html>
+    ';
+    echo $html;
+  }
+
+  // public function printOrder($id)
+  // {
+  //   $info['title'] = 'Print Purchase Order ' . $id;
+  //   $info['user'] = $this->Auth_model->getUserSession();
+
+  //   $info['order_data'] = $this->Purchase_model->getPurchaseOrdersById($id);
+  //   $order_detail = $this->Purchase_model->getPurchaseOrderDetailsById($id);
+
+  //   $info['company_info'] = $this->Company_model->getCompanyById(1);
+  //   $info['supplier_info'] = $this->Purchase_model->getSupplierInfo($id);
+
+  //   $info['order_date'] = date('d M Y', strtotime($info['order_data']['order_date']));
+
+  //   foreach ($order_detail as $key => $val) {
+  //     $product_data = $this->Product_model->getProductById($val['product_id']);
+  //     $info['show_detail'] = '
+  //       <tr>
+  //       <td>' . $product_data['product_name'] . '</td>
+  //       <td>' . $val['unit_price'] . '</td>
+  //       <td>' . $val['qty'] . '</td>
+  //       <td>' . $val['amount'] . '</td>
+  //       </tr>
+  //     ';
+  //   };
+
+  //   $this->load->view('purchase/print-order', $info);
+  // }
 }
   
   /* End of file Purchase.php */

@@ -29,6 +29,23 @@ class Purchase_model extends CI_Model
     return $query->result_array();
   }
 
+  public function getSupplierInfo($id)
+  {
+    $this->db->select('*');
+    $this->db->from('purchase_orders');
+    $this->db->join('suppliers', 'suppliers.supplier_id = purchase_orders.supplier_id');
+    $this->db->where('purchase_orders.id', $id);
+    // $this->db->order_by('order_id');
+
+    $query = $this->db->get();
+
+    if ($query->num_rows() != 0) {
+      return $query->row_array();
+    } else {
+      return false;
+    }
+  }
+
   public function getPurchase()
   {
     $query = $this->db->get('purchase_orders');

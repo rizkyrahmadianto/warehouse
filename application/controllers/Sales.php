@@ -123,7 +123,7 @@ class Sales extends CI_Controller
       'net_amount' => $this->input->post('net_amount_value', true),
       'discount' => $this->input->post('discount', true),
       'paid_status' => 2,
-      'user_id' => $this->session->userdata('id')
+      'user_create' => $this->session->userdata('email')
     ];
 
     if ($this->form_validation->run() == FALSE) {
@@ -234,7 +234,7 @@ class Sales extends CI_Controller
       'net_amount' => $this->input->post('net_amount_value', true),
       'discount' => $this->input->post('discount', true),
       'paid_status' => 2,
-      'user_id' => $this->session->userdata('id'),
+      'user_update' => $this->session->userdata('email'),
       'updated_at' => date('Y-m-d H:i:s')
     ];
 
@@ -295,30 +295,216 @@ class Sales extends CI_Controller
 
   public function printOrder($id)
   {
-    $info['title'] = 'Print Sales Order ' . $id;
-    $info['user'] = $this->Auth_model->getUserSession();
+    $title = 'Print Sales Order ' . $id;
+    $user = $this->Auth_model->getUserSession();
 
-    $info['order_data'] = $this->Sales_model->getSalesOrdersById($id);
-    $info['order_detail'] = $this->Sales_model->getSalesOrderDetailsById($id);
+    $order_data = $this->Sales_model->getSalesOrdersById($id);
+    $order_detail = $this->Sales_model->getSalesOrderDetailsById($id);
 
-    $info['company_info'] = $this->Company_model->getCompanyById(1);
+    $company_info = $this->Company_model->getCompanyById(1);
 
-    $info['order_date'] = date('d M Y', strtotime($info['order_data']['order_date']));
+    $order_date = date('d M Y', strtotime($order_data['order_date']));
 
-    foreach ($info['order_detail'] as $key => $val) {
+    // Checking for discount exist order_data['discount']
+    if ($order_data['discount']) {
+      $discount  = $order_data['discount'] . '%';
+    } else {
+      $discount = '-';
+    }
+
+    $html = '
+    <!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>Warehouse | ' . $title . '</title>
+
+  <link rel="shortcut icon" type="image/png" href="' . base_url() . 'assets/img/logo/warehouse.png">
+  <!-- Custom fonts for this template-->
+  <link href="' . base_url() . 'assets/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+
+
+  <!-- Custom styles for this template-->
+  <link href="' . base_url() . 'assets/css/sb-admin-2.min.css" rel="stylesheet">
+  <link href="' . base_url() . 'assets/css/select2.min.css" rel="stylesheet">
+
+  <!-- Bootstrap core JavaScript-->
+  <script src="' . base_url() . 'assets/vendor/jquery/jquery.min.js"></script>
+  <script src="' . base_url() . 'assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+  <!-- Core plugin JavaScript-->
+  <script src="' . base_url() . 'assets/vendor/jquery-easing/jquery.easing.min.js"></script>
+
+  <!-- Custom scripts for all pages-->
+  <script src="' . base_url() . 'assets/js/sb-admin-2.min.js"></script>
+
+  <!-- Custom Script -->
+  <script src="' . base_url() . 'assets/sweet_alert/dist/sweetalert2.all.min.js"></script>
+</head>
+
+<body onload="window.print();">
+  <div class="container">
+    <div class="card">
+      <div class="card-header">
+        Invoice
+        <strong>' . $order_date . '</strong>
+        <!-- <span class="float-right"> <strong>Status:</strong> -</span> -->
+        <span class="float-right"> <strong>BILL ID:</strong> ' . $order_data['id'] . '</span>
+      </div>
+      <div class="card-body">
+        <div class="row mb-4">
+          <div class="col-sm-6">
+          <h6 class="mb-3">From:</h6>
+          <div>
+            <strong>' . $company_info['company_name'] . '</strong>
+          </div>
+          <div>' . $company_info['address'] . '</div>
+          <div>' . $company_info['phone'] . '</div>
+        </div>
+
+        <div class="col-sm-6">
+          <h6 class="mb-3">To:</h6>
+          <div>
+            <strong>' . $order_data['customer_name'] . '</strong>
+          </div>
+          <div>' . $order_data['customer_address'] . '</div>
+          <div>' . $order_data['customer_phone'] . '</div>
+        </div>
+
+
+
+        </div>
+
+        <div class="table-responsive-sm">
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th>Product Name</th>
+                <th>Price</th>
+                <th>Quantity</th>
+                <th>Amount</th>
+              </tr>
+            </thead>
+            <tbody>
+    ';
+    foreach ($order_detail as $key => $val) {
       $product_data = $this->Product_model->getProductById($val['product_id']);
-      $info['show_detail'] = '
-        <tr>
-        <td>' . $product_data['product_name'] . '</td>
-        <td>' . $val['unit_price'] . '</td>
-        <td>' . $val['qty'] . '</td>
-        <td>' . $val['amount'] . '</td>
-        </tr>
-      ';
-    };
 
-    $this->load->view('sales/print-order', $info);
+      $html .= '
+      <tr>
+        <td>' . $product_data['product_name'] . '</td>
+        <td>Rp. ' . number_format($val['unit_price'], 0, ',', '.') . '</td>
+        <td>' . $val['qty'] . '</td>
+        <td>Rp. ' . number_format($val['amount'], 0, ',', '.') . '</td>
+      </tr>
+      ';
+    }
+
+    $html .= '
+    </tbody>
+    </table>
+  </div>
+  <div class="row">
+    <div class="col-lg-4 col-sm-5">
+
+    </div>
+
+    <div class="col-lg-4 col-sm-5 ml-auto">
+      <table class="table table-clear">
+        <tbody>
+          <tr>
+            <td class="left">
+              <strong>Gross Amount:</strong>
+            </td>
+            <td class="right">Rp. 
+            ' . number_format($order_data['gross_amount'], 0, ',', '.') . '
+            </td>
+          </tr>';
+
+    if ($order_data['service_charge'] > 0) {
+      $html .= '<tr>
+              <td class="left">
+                <strong>Service Charge (' . $order_data['service_charge_rate'] . '%)</strong>
+              </td>
+              <td class="right">Rp. ' . number_format($order_data['service_charge'], 0, ',', '.') . '</td>
+            </tr>';
+    }
+
+    if ($order_data['vat_charge'] > 0) {
+      $html .= '<tr>
+              <td class="left">
+                <strong>Vat Charge (' . $order_data['vat_charge_rate'] . '%)</strong>
+              </td>
+              <td class="right">Rp. ' . number_format($order_data['vat_charge'], 0, ',', '.') . '</td>
+            </tr>';
+    }
+
+    $html .= '<tr>
+            <td class="left">
+              <strong>Discount:</strong>
+            </td>
+            <td class="right">' . $discount . '</td>
+          </tr>
+
+          <tr>
+            <td class="left">
+              <strong>Net Amount:</strong>
+            </td>
+            <td class="right">
+              <strong>Rp. ' . number_format($order_data['net_amount'], 0, ',', '.') . '</strong>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+    </div>
+
+  </div>
+
+</div>
+</div>
+</div>
+</body>
+
+</html>
+    ';
+    echo $html;
   }
+
+  // public function printOrder($id)
+  // {
+  //   $info['title'] = 'Print Sales Order ' . $id;
+  //   $info['user'] = $this->Auth_model->getUserSession();
+
+  //   $info['order_data'] = $this->Sales_model->getSalesOrdersById($id);
+  //   $info['order_detail'] = $this->Sales_model->getSalesOrderDetailsById($id);
+
+  //   $info['company_info'] = $this->Company_model->getCompanyById(1);
+
+  //   $info['order_date'] = date('d M Y', strtotime($info['order_data']['order_date']));
+
+  //   foreach ($info['order_detail'] as $key => $val) {
+  //     $product_data = $this->Product_model->getProductById($val['product_id']);
+  //     $info['show_detail'] =
+  //       '
+  //       <tr>
+  //       <td>' . $product_data['product_name'] . '</td>
+  //       <td>' . $val['unit_price'] . '</td>
+  //       <td>' . $val['qty'] . '</td>
+  //       <td>' . $val['amount'] . '</td>
+  //       </tr>
+  //     ';
+  //   };
+
+  //   $this->load->view('sales/print-order', $info);
+  // }
 }
   
   /* End of file Sales.php */

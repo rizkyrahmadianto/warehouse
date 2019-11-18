@@ -72,11 +72,11 @@
                       <select name="product[]" id="product_<?php echo $i; ?>" class="form-control select_group product" data-row-id="row_<?php echo $i; ?>" style="width: 100%;" onchange="getProductData(<?php echo $i; ?>)" required>
                         <option value=""></option>
                         <?php foreach ($product as $p) : ?>
-                          <option value="<?php echo $p['product_id'] ?>" <?php if ($val['product_id'] == $p['product_id']) {
-                                                                                  echo "selected='selected'";
-                                                                                } ?>>
-                            <?php echo $p['product_name'] ?>
-                          </option>
+                          <?php if ($val['product_id'] == $p['product_id']) : ?>
+                            <option value="<?php echo $p['product_id'] ?>" selected><?php echo $p['product_name'] ?></option>
+                          <?php else : ?>
+                            <option value="<?php echo $p['product_id'] ?>"><?php echo $p['product_name'] ?></option>
+                          <?php endif; ?>
                         <?php endforeach; ?>
                       </select>
                     </td>
