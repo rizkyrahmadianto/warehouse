@@ -29,7 +29,7 @@
   <!-- DataTales Example -->
   <div class="card shadow mb-4">
     <div class="card-body">
-      <form action="<?php echo base_url(); ?>purchase/neworder" method="POST">
+      <form action="" method="POST">
         <div class="col-md-6 col-xs-12">
           <div class="form-row">
             <div class="form-group col-md-6">
@@ -169,7 +169,7 @@
         </div>
 
         <a href="<?php echo base_url(); ?>purchase" class="btn btn-secondary">Back</a>
-        <input type="submit" name="save" value="Create Order" class="btn btn-success pull-right">
+        <input type="submit" name="save" value="Update Order" class="btn btn-success pull-right">
       </form>
     </div>
   </div>

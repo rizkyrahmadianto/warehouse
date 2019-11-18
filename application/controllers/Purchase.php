@@ -202,7 +202,6 @@ class Purchase extends CI_Controller
     $info['detailsupplier'] = $this->Purchase_model->getPurchaseOrdersById($id);
 
     $this->form_validation->set_rules('supplier', 'supplier', 'required');
-    $this->form_validation->set_rules('order_date', 'order date', 'required');
     // $this->form_validation->set_rules('bankname', 'bank name', 'trim|required|min_length[3]');
     // $this->form_validation->set_rules('banknumber', 'bank account number', 'trim|required|min_length[5]|numeric');
 
@@ -239,7 +238,7 @@ class Purchase extends CI_Controller
 
         // get the product
         $product_data = $this->Product_model->getProductById($product_id);
-        $update_qty = $qty - $product_data['qty'];
+        $update_qty = abs($qty - $product_data['qty']);
         $update_product_data = array('qty' => $update_qty);
 
         // update product quantity
@@ -250,7 +249,7 @@ class Purchase extends CI_Controller
       $this->db->where('order_id', $id);
       $this->db->delete('purchase_order_details');
 
-      // decrease the product quantity
+      // increase the product quantity
       $count_product = count($this->input->post('product'));
       for ($i = 0; $i < $count_product; $i++) {
         $products = array(
@@ -263,7 +262,7 @@ class Purchase extends CI_Controller
 
         $this->Purchase_model->insertOrderDetails($products);
 
-        // Decrease stock from table product 
+        // Increase stock from table product 
         $product_data = $this->Product_model->getProductById($this->input->post('product')[$i]);
         $qty = $product_data['qty'] + $this->input->post('qty')[$i];
         $price = $this->input->post('price')[$i];

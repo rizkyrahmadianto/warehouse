@@ -29,7 +29,7 @@
   <!-- DataTales Example -->
   <div class="card shadow mb-4">
     <div class="card-body">
-      <form action="<?php echo base_url(); ?>sales/neworder" method="POST">
+      <form action="" method="POST">
         <div class="col-md-6 col-xs-12">
           <div class="form-group">
             <label for="name">Customer Name</label>
