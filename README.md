@@ -13,7 +13,7 @@ I made this with CodeIgniter's framework so
 1. Dont forget setting your config like routes and database
 2. Upload database file on folder _database/warehouse.sql into your xampp or whatever
 3. Setting your email and password into Auth.php on folder Controller/Auth.php if you want to activate email service like register and change password
-4. Use this account to access the admin panel: email -> r.rahmadianto@yahoo.com, password -> admin123
+4. Use this account to access the admin panel: email -> admin@admin.com, password -> admin123
 
 !! By default new user will be given access as "Member"
 
