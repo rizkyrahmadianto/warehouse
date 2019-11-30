@@ -60,6 +60,22 @@ class Sales_model extends CI_Model
     $this->db->where('id', $id);
     $this->db->update('sales_orders', $data);
   }
+
+  // Searching Filter
+  public function dateRangeFilter($startdate, $enddate)
+  {
+    $this->db->select('*, COUNT(order_id) as jumlah');
+    $this->db->from('sales_orders');
+    $this->db->join('sales_order_details', 'sales_order_details.order_id = sales_orders.id');
+    $this->db->where('order_date >=', $startdate);
+    $this->db->where('order_date <=', $enddate);
+    $this->db->group_by('order_id');
+
+    $this->db->order_by('order_date', 'DESC');
+
+    $query = $this->db->get();
+    return $query->result_array();
+  }
 }
   
   /* End of file Sales_model.php */

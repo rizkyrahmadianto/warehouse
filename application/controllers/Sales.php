@@ -104,6 +104,7 @@ class Sales extends CI_Controller
     $this->form_validation->set_rules('name', 'customer name', 'trim|required|min_length[5]');
     $this->form_validation->set_rules('phone', 'phone number', 'trim|required|min_length[7]|max_length[12]|numeric');
     $this->form_validation->set_rules('address', 'address', 'trim|required|min_length[5]');
+    $this->form_validation->set_rules('order_date', 'order date', 'required');
     // $this->form_validation->set_rules('bankname', 'bank name', 'trim|required|min_length[3]');
     // $this->form_validation->set_rules('banknumber', 'bank account number', 'trim|required|min_length[5]|numeric');
 
@@ -115,6 +116,7 @@ class Sales extends CI_Controller
       'customer_name' => $this->input->post('name', true),
       'customer_phone' => $this->input->post('phone', true),
       'customer_address' => $this->input->post('address', true),
+      'order_date' => $this->input->post('order_date', true),
       'gross_amount' => $this->input->post('gross_amount_value', true),
       'service_charge_rate' => $this->input->post('service_charge_rate', true),
       'service_charge' => ($this->input->post('service_charge_value') > 0) ? $this->input->post('service_charge_value') : 0,
@@ -226,6 +228,7 @@ class Sales extends CI_Controller
       'customer_name' => $this->input->post('name', true),
       'customer_phone' => $this->input->post('phone', true),
       'customer_address' => $this->input->post('address', true),
+      'order_date' => $this->input->post('order_date', true),
       'gross_amount' => $this->input->post('gross_amount_value', true),
       'service_charge_rate' => $this->input->post('service_charge_rate', true),
       'service_charge' => ($this->input->post('service_charge_value') > 0) ? $this->input->post('service_charge_value') : 0,

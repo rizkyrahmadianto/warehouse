@@ -31,10 +31,21 @@
     <div class="card-body">
       <form action="" enctype="multipart/form-data" method="POST">
         <div class="col-md-6 col-xs-12">
-          <div class="form-group">
-            <label for="name">Customer Name</label>
-            <input type="text" class="form-control" id="name" name="name" placeholder="Enter Customer's Name.." value="<?php echo $order_data['order']['customer_name']; ?>">
-            <small class="form-text text-danger"><?= form_error('name'); ?></small>
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <label for="name">Customer Name</label>
+              <input type="text" class="form-control" id="name" name="name" placeholder="Enter Customer's Name.." value="<?php echo $order_data['order']['customer_name']; ?>">
+              <small class="form-text text-danger"><?= form_error('name'); ?></small>
+            </div>
+            <div class="form-group col-md-6">
+              <label for="order_date">Order Date</label>
+              <div class="input-group">
+                <div class="input-group-prepend">
+                  <span class="input-group-text"><i class="far fa-calendar-alt"></i></span>
+                </div>
+                <input type="date" class="form-control" name="order_date" id="order_date" placeholder="Date Order.." value="<?php echo $order_data['order']['order_date']; ?>" required>
+              </div>
+            </div>
           </div>
 
           <div class="form-group">

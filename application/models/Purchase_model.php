@@ -7,7 +7,7 @@ class Purchase_model extends CI_Model
 
   public function getAllPurchase($limit, $offset, $keyword)
   {
-    $this->db->select('*, COUNT(order_id) as total');
+    $this->db->select('*, COUNT(order_id) as jumlah');
     $this->db->from('purchase_orders');
     $this->db->join('purchase_order_details', 'purchase_order_details.order_id = purchase_orders.id');
     $this->db->join('suppliers', 'suppliers.supplier_id = purchase_orders.supplier_id');
@@ -76,6 +76,23 @@ class Purchase_model extends CI_Model
   {
     $this->db->where('id', $id);
     $this->db->update('purchase_orders', $data);
+  }
+
+  // Searching Filter
+  public function dateRangeFilter($startdate, $enddate)
+  {
+    $this->db->select('*, COUNT(order_id) AS jumlah');
+    $this->db->from('purchase_orders');
+    $this->db->join('purchase_order_details', 'purchase_order_details.order_id = purchase_orders.id');
+    $this->db->join('suppliers', 'suppliers.supplier_id = purchase_orders.supplier_id');
+    $this->db->where('order_date >=', $startdate);
+    $this->db->where('order_date <=', $enddate);
+    $this->db->group_by('order_id');
+
+    $this->db->order_by('order_date', 'DESC');
+
+    $query = $this->db->get();
+    return $query->result_array();
   }
 }
   

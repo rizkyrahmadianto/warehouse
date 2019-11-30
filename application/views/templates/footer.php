@@ -40,8 +40,23 @@
         </div>
       </div>
       </body>
-
       <!-- CLOSE ALERT AUTOMATICALLY -->
+      <!-- <script src="https://cdn.datatables.net/1.10.18/js/jquery.dataTables.min.js" crossorigin="anonymous"></script>
+      <script src="https://cdn.datatables.net/1.10.18/js/dataTables.bootstrap4.min.js" crossorigin="anonymous"></script> -->
+
+
+      <script src="<?php echo base_url(); ?>assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+      <!-- Core plugin JavaScript-->
+      <script src="<?php echo base_url(); ?>assets/vendor/jquery-easing/jquery.easing.min.js"></script>
+
+      <!-- Custom scripts for all pages-->
+      <script src="<?php echo base_url(); ?>assets/js/sb-admin-2.min.js"></script>
+
+      <!-- Custom Script -->
+      <script src="<?php echo base_url(); ?>assets/sweet_alert/dist/sweetalert2.all.min.js"></script>
+      <script src="<?php echo base_url(); ?>assets/js/bootstrap-datepicker.min.js"></script>
+
       <script>
         window.setTimeout(function() {
           $(".alert").fadeTo(3000, 500).slideUp(500, function() {
@@ -108,20 +123,21 @@
 
 
 
-      <!-- <script>
+      <script>
         $(document).ready(function() {
-          var pickDate = $(".datepicker").datepicker({
-            format: 'dd-mm-yyyy',
-            autoclose: true,
-            todayHighlight: true
+          $(".datepicker").datepicker({
+            todayBtn: "linked",
+            format: "yyyy-mm-dd",
+            autoclose: true
           });
         });
-      </script> -->
+      </script>
 
       <script src="<?php echo base_url(); ?>assets/js/format-money.js"></script>
+      <!-- <script src="<?php echo base_url(); ?>assets/js/daterange-filter-purchase.js"></script> -->
       <!-- <script src="<?php echo base_url(); ?>assets/js/simple.money.format.js"></script> -->
       <!-- <script src="<?php echo base_url(); ?>assets/js/accounting.min.js"></script> -->
-      <!-- <script src="<?php echo base_url(); ?>assets/js/newOrderSales.js"></script> -->
+      <script src="<?php echo base_url(); ?>assets/js/tableNewSalesOrder.js"></script>
       <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
       <script src="<?php echo base_url(); ?>assets/js/detail-time-order.js"></script>
       <!-- <script src="<?php echo base_url(); ?>assets/js/customer_modal_ajax.js"></script> -->

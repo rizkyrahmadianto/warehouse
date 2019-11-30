@@ -4,24 +4,26 @@
   <!-- Page Heading -->
   <h1 class="h3 mb-2 text-gray-800"><?php echo $title; ?></h1>
 
-
-  <div class="d-sm-flex align-items-center justify-content-between mb-4">
-    <div class="d-sm-flex mt-4">
-      <a href="<?php echo base_url() ?>purchase/neworder" class="btn btn-success"><i class="fa fa-plus"></i> New Order</a>
+  <form action="" method="GET">
+    <div class="form-row">
+      <div class="form-group col-md-3">
+        <label for="startdate">Start Date</label>
+        <input type="text" name="startdate" id="startdate" class="form-control datepicker" placeholder="yyyy-mm-dd" required autocomplete="off" value="<?php echo set_value('startdate'); ?>">
+      </div>
+      <div class="form-group col-md-3">
+        <label for="enddate">End Date</label>
+        <input type="text" name="enddate" id="enddate" class="form-control datepicker" placeholder="yyyy-mm-dd" required autocomplete="off" value="<?php echo set_value('enddate'); ?>">
+      </div>
     </div>
-    <div class="d-sm-flex mt-4">
-      <!-- search form -->
-      <form action="" method="post">
-        <div class="input-group">
-          <input type="text" name="search" id="search" class="form-control" placeholder="Search..." autocomplete="off" autofocus>
-          <div class="input-group-append">
-            <button type="submit" class="btn btn-primary"><i class="fas fa-search"></i></button>
-          </div>
-        </div>
-      </form>
-      <!-- /.search form -->
+    <div class="form-row">
+      <div class="form-group col-md-1">
+        <button type="submit" name="search" class="btn btn-primary"><i class="fas fa-search"></i> Search</button>
+      </div>
+      <!-- <div class="form-group col-md-1">
+        <a target="__blank" href="" class="btn btn-secondary"><i class="fas fa-print"></i> Print All</a>
+      </div> -->
     </div>
-  </div>
+  </form>
 
   <section class="content-header">
     <div class="row">
@@ -50,35 +52,31 @@
         <table class="table table-bordered" id="table" width="100%" cellspacing="0">
           <thead>
             <tr>
+              <th>No</th>
               <th>Order ID</th>
               <th>Supplier Name</th>
-              <th>Supplier Phone</th>
               <th>Order Date</th>
               <th>Total Products</th>
               <th>Total Amount</th>
-              <th>Action</th>
             </tr>
           </thead>
           <tbody>
             <?php
-            if ($purchases) :
-              foreach ($purchases as $val) : ?>
+            $no = 1;
+            if ($data) :
+              foreach ($data as $val) : ?>
                 <tr>
+                  <td><?php echo $no++; ?></td>
                   <td><?php echo $val['id']; ?></td>
-                  <td><?php echo $val['supplier_name']; ?></td>
-                  <td><?php echo $val['supplier_phone']; ?></td>
+                  <td><?php echo $val['customer_name']; ?></td>
                   <td><?php echo date('d M Y', strtotime($val['order_date'])); ?></td>
                   <td><?php echo $val['jumlah']; ?></td>
                   <td><?php echo "Rp. " . number_format($val['net_amount'], 0, ',', '.'); ?></td>
-                  <td>
-                    <a href="<?php echo base_url() ?>purchase/editorder/<?php echo $val['id'] ?>" class="btn btn-sm btn-warning btn-circle"><i class="fas fa-pencil-alt"></i></a>
-                    <a target="__blank" href="<?php echo base_url() ?>purchase/printorder/<?php echo $val['id'] ?>" class="btn btn-sm btn-secondary btn-circle"><i class="fas fa-print"></i></a>
-                  </td>
                 </tr>
               <?php endforeach; ?>
             <?php else : ?>
               <tr>
-                <td colspan="8" style="text-align: center">Data not found !</td>
+                <td colspan="6" style="text-align: center">Data not found !</td>
               </tr>
             <?php endif; ?>
           </tbody>
@@ -86,7 +84,7 @@
       </div>
       <div class="row">
         <div class="col-md-12">
-          <?php echo $pagination; ?>
+          <a target="__blank" href="<?php echo $cetak; ?>" class="btn btn-secondary"><i class="fas fa-print"></i> Print All</a>
         </div>
       </div>
     </div>

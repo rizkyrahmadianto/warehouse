@@ -67,8 +67,8 @@
                   <td><?php echo $s['id']; ?></td>
                   <td><?php echo $s['customer_name']; ?></td>
                   <td><?php echo $s['customer_phone']; ?></td>
-                  <td><?php echo $s['order_date']; ?></td>
-                  <td><?php echo $s['total']; ?></td>
+                  <td><?php echo date('d M Y', strtotime($s['order_date'])); ?></td>
+                  <td><?php echo $s['jumlah']; ?></td>
                   <td><?php echo "Rp. " . number_format($s['net_amount'], 0, ',', '.'); ?></td>
                   <td>
                     <a href="<?php echo base_url() ?>sales/editorder/<?php echo $s['id'] ?>" class="btn btn-sm btn-warning btn-circle"><i class="fas fa-pencil-alt"></i></a>
