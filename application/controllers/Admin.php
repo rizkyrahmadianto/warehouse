@@ -15,6 +15,20 @@ class Admin extends CI_Controller
         $info['title']  = 'Dashboard';
         $info['user']   = $this->Auth_model->getUserSession();
 
+        // GET EARNINGS MONTHLY https://stackoverflow.com/questions/16717274/calculate-monthly-totals-using-php
+        $info['s_monthly'] = $this->Admin_model->getSalesEarningMonthly();
+        $info['p_monthly'] = $this->Admin_model->getPurchaseEarningMonthly();
+
+        // GET EARNINGS ANNUAL / A YEAR
+        $info['s_annual'] = $this->Admin_model->getSalesEarningAnnual();
+        $info['p_annual'] = $this->Admin_model->getPurchaseEarningAnnual();
+
+        // GET USER COUNT
+        $info['count_user'] = $this->Admin_model->getUserCount();
+
+        // GET ONLINE USER 
+        $info['is_online'] = $this->Admin_model->getUserOnline();
+
         $this->load->view('templates/header', $info);
         $this->load->view('templates/sidebar', $info);
         $this->load->view('templates/topbar', $info);

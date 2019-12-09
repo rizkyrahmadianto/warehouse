@@ -10,8 +10,13 @@
                 <div class="card-body">
                     <div class="row no-gutters align-items-center">
                         <div class="col mr-2">
-                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Earnings (Monthly)</div>
-                            <div class="h5 mb-0 font-weight-bold text-gray-800">$40,000</div>
+                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Earnings (Sell - Purchase) (Monthly)</div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">Rp.
+                                <?php
+                                $get_monthly = $s_monthly['income_total'] - $p_monthly['income_total'];
+                                echo number_format($get_monthly, 0, ',', '.');
+                                ?>
+                            </div>
                         </div>
                         <div class="col-auto">
                             <i class="fas fa-calendar fa-2x text-gray-300"></i>
@@ -26,8 +31,13 @@
                 <div class="card-body">
                     <div class="row no-gutters align-items-center">
                         <div class="col mr-2">
-                            <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Earnings (Annual)</div>
-                            <div class="h5 mb-0 font-weight-bold text-gray-800">$215,000</div>
+                            <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Earnings (Sell - Purchase) (Annual)</div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">Rp.
+                                <?php
+                                $get_annual = $s_annual['income_total'] - $p_annual['income_total'];
+                                echo number_format($get_annual, 0, ',', '.');
+                                ?>
+                            </div>
                         </div>
                         <div class="col-auto">
                             <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
@@ -43,16 +53,7 @@
                     <div class="row no-gutters align-items-center">
                         <div class="col mr-2">
                             <div class="text-xs font-weight-bold text-info text-uppercase mb-1">User Count</div>
-                            <div class="row no-gutters align-items-center">
-                                <div class="col-auto">
-                                    <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">50%</div>
-                                </div>
-                                <div class="col">
-                                    <div class="progress progress-sm mr-2">
-                                        <div class="progress-bar bg-info" role="progressbar" style="width: 50%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
-                                    </div>
-                                </div>
-                            </div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800"><?php echo $count_user; ?></div>
                         </div>
                         <div class="col-auto">
                             <i class="fas fa-users fa-2x text-gray-300"></i>
@@ -67,8 +68,8 @@
                 <div class="card-body">
                     <div class="row no-gutters align-items-center">
                         <div class="col mr-2">
-                            <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Visitor</div>
-                            <div class="h5 mb-0 font-weight-bold text-gray-800">18</div>
+                            <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Online</div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800"><?php echo $is_online['isonline']; ?></div>
                         </div>
                         <div class="col-auto">
                             <i class="far fa-eye fa-2x text-gray-300"></i>
@@ -77,25 +78,6 @@
                 </div>
             </div>
         </div>
-    </div>
-
-    <div class="row mb-4">
-        <div class="col-lg-4">
-            <!-- search form -->
-            <form action="" method="post">
-                <div class="input-group">
-                    <input type="text" name="search" id="search" class="form-control" placeholder="Search...">
-                    <div class="input-group-append">
-                        <button type="submit" class="btn btn-secondary"><i class="fas fa-search"></i></button>
-                    </div>
-                </div>
-            </form>
-            <!-- /.search form -->
-        </div>
-
-        <!-- <div class="col-lg-8">
-      <a href="<?php echo base_url() ?>admin/addrole" class="btn btn-primary pull-right"><i class="fa fa-plus"></i> Role</a>
-    </div> -->
     </div>
 
 

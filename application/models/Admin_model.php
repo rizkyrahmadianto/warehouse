@@ -9,24 +9,50 @@ class Admin_model extends CI_Model
         parent::__construct();
     }
 
-    public function getAllData($limit, $offset)
+    public function getSalesEarningMonthly()
     {
-        $keyword = $this->input->post('search', true);
+        $this->db->select("SUM(net_amount) AS income_total");
+        $this->db->group_by('order_date');
+        $query = $this->db->get_where('sales_orders', 'MONTH(order_date) = MONTH(CURRENT_DATE()) AND YEAR(order_date) = YEAR(CURRENT_DATE())');
+        return $query->row_array();
+    }
 
-        //coba materi count if dan sum if
-        //https://jagowebdev.com/menghitung-fieldkolom-pada-tabel-mysql-dengan-kondisi-tertentu-menggunakan-count-if/
+    public function getSalesEarningAnnual()
+    {
+        $this->db->select("SUM(net_amount) AS income_total");
+        $query = $this->db->get_where('sales_orders', 'YEAR(order_date) = YEAR(CURRENT_DATE())');
+        // $query = $this->db->get_where('sales_orders', 'DATE_FORMAT(NOW(),"%Y-%m-01") AND LAST_DAY(NOW())');
+        return $query->row_array();
+    }
 
-        $this->db->select('regions.id AS regid, regions.name AS regname, COUNT(*) AS jumlah, SUM(person.income) AS total, AVG(person.income) AS rata_rata');
-        $this->db->from('regions');
-        $this->db->join('person', 'regions.id = person.region_id');
-        $this->db->group_by('regions.id');
+    public function getPurchaseEarningMonthly()
+    {
+        $this->db->select("SUM(net_amount) AS income_total");
+        $this->db->group_by('order_date');
+        $query = $this->db->get_where('purchase_orders', 'MONTH(order_date) = MONTH(CURRENT_DATE()) AND YEAR(order_date) = YEAR(CURRENT_DATE())');
+        return $query->row_array();
+    }
 
-        $this->db->order_by('regions.name', 'ASC');
-        $this->db->limit($limit, $offset);
-        $this->db->or_like('regions.name', $keyword);
+    public function getPurchaseEarningAnnual()
+    {
+        $this->db->select("SUM(net_amount) AS income_total");
+        $query = $this->db->get_where('purchase_orders', 'YEAR(order_date) = YEAR(CURRENT_DATE())');
+        // $query = $this->db->get_where('purchase_orders', 'DATE_FORMAT(NOW(),"%Y-%m-01") AND LAST_DAY(NOW())');
+        return $query->row_array();
+    }
 
-        $query = $this->db->get();
-        return $query->result_array();
+    public function getUserCount()
+    {
+        $this->db->select('COUNT(*)');
+        $this->db->from('users');
+        return $this->db->count_all_results();
+    }
+
+    public function getUserOnline()
+    {
+        $this->db->select("SUM(online) AS isonline");
+        $query = $this->db->get_where('users', 'online = 1');
+        return $query->row_array();
     }
 
     public function getTotalRow()
